@@ -9,7 +9,7 @@
 #' @export
 #'
 smooth_check_loss <- function(x,tau,h = 0.1, kernel = "Gaussian"){
-  if (kernel == "none"){
+  if (is.null(kernel)){
     loss = abs(x)/2 + (tau-1/2)*x
     return(mean(loss))
   }

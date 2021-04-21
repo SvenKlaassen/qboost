@@ -8,13 +8,14 @@
 
 The goal of qboost is to …
 
-## Installation
+## Installation qboost
 
-You can install the released version of qboost from
-[CRAN](https://CRAN.R-project.org) with:
+To install this package in R, run the following commands:
 
 ``` r
-install.packages("qboost")
+install.packages("devtools")
+library(devtools)
+install_github("SvenKlaassen/GGMtest")
 ```
 
 And the development version from [GitHub](https://github.com/) with:
@@ -24,7 +25,7 @@ And the development version from [GitHub](https://github.com/) with:
 devtools::install_github("SvenKlaassen/qboost")
 ```
 
-## Example
+## Examples
 
 This is a basic example which shows you how to solve a common problem:
 
