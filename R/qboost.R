@@ -1,4 +1,7 @@
-#' Title
+#' Quantile Boosting for high-dimensional data
+#'
+#' Applying a greedy algorithm to minimize the expected smoothed check loss.
+#' Employs the Weak Restricted Greedy Algorithm. For the orthogonal variant, set the stepsize to NULL.
 #'
 #' @param X A matrix of covariates.
 #' @param Y A vector of responses.

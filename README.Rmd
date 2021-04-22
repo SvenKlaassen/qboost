@@ -37,35 +37,50 @@ install_github("SvenKlaassen/GGMtest")
 
 ## Examples
 
-This is a basic example which shows you how to solve a common problem:
+A simple example. We generate data from a basic linear model 
+$$ Y = \beta_0 + X^T\beta +\epsilon,$$
+where $\beta_0=1$ and $\epsilon\sim t_2$. To account for a high-dimensional setting, we only generate $n = 100$ observations, whereas the covariates $X$ are generated from a standard multivariate gaussian distribution of dimension $p = 500$. The coefficient vector is set to $\beta_j = 1$ for the first $j = 1,\dots s$ components and $0$ elsewhere. 
 
-```{r example}
+```{r dgp}
 library(MASS)
-library(qboost)
 set.seed(42)
 n <- 100; p <- 500; s <- 4
 beta <- rep(c(1,0),c(s+1,p-s))
 
 X = mvrnorm(n, rep(0, p), diag(p))
-err = rt(n, 2)
-Y = cbind(1, X) %*% beta + err
+epsilon = rt(n, 2)
+Y = cbind(1, X) %*% beta + epsilon
 ```
 
-What is special about using `README.Rmd` instead of just `README.md`? You can include R chunks like so:
+Next, we use the orthogonal variant of the qboost algorithm (WCGA, by setting `r stepsize = NULL`) and proceed with for $10$ greedy selection steps.
 
-```{r cars}
-summary(cars)
+
+```{r example}
+library(qboost)
+n_steps <- 10; tau <- .5
+model <- qboost(X,Y,tau = tau, m_stop = n_steps , h = 0.1, kernel = "Gaussian",stepsize = NULL)
+# selected covariates
+print(model$selection_path)
 ```
 
-You'll still need to render `README.Rmd` regularly, to keep `README.md` up-to-date. `devtools::build_readme()` is handy for this. You could also use GitHub Actions to re-render `README.Rmd` every time you push. An example workflow can be found here: <https://github.com/r-lib/actions/tree/master/examples>.
+To compare the performance to the oracle model, we apply the conquer algorithm to the first $s$ components of $X$ and report the norm of the coefficient vectors.
 
-You can also embed plots, for example:
+```{r exampleplot}
+library(conquer)
+fit.conquer <- conquer(X[,1:s], Y, tau = tau, h = 0.1, kernel = "Gaussian")
+norm_conquer <- sqrt(sum((fit.conquer$coeff-beta[1:(s+1)])^2))
 
-```{r pressure, echo = FALSE}
-plot(pressure)
+library(ggplot2)
+df <- data.frame("norm_qboost" = apply(model$coeff_path,2, function(x) sqrt(sum((x-beta)^2))),
+                 "step" = 0:n_steps)
+
+plot <- ggplot(df,aes(x = step, y = norm_qboost)) +
+  geom_line(color = "red", size = 1) + 
+  geom_hline(yintercept = norm_conquer, color = "Forestgreen", size = 1) +
+  theme(legend.position="right")
+plot
+
 ```
-
-In that case, don't forget to commit and push the resulting figure files, so they display on GitHub and CRAN.
 
 ## References
 * He, Xuming, et al. "Smoothed quantile regression with large-scale inference." arXiv preprint arXiv:2012.05187 (2020). [Paper](https://arxiv.org/abs/2012.05187)

@@ -2,7 +2,7 @@
 % Please edit documentation in R/qboost.R
 \name{qboost}
 \alias{qboost}
-\title{Title}
+\title{Quantile Boosting for high-dimensional data}
 \usage{
 qboost(
   X,
@@ -35,5 +35,6 @@ A list with components
 \item{selection_path}{The selected covariates as a vector.}
 }
 \description{
-Title
+Applying a greedy algorithm to minimize the expected smoothed check loss.
+Employs the Weak Restricted Greedy Algorithm. For the orthogonal variant, set the stepsize to NULL.
 }

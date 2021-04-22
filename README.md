@@ -36,46 +36,59 @@ install_github("SvenKlaassen/GGMtest")
 
 ## Examples
 
-This is a basic example which shows you how to solve a common problem:
+A simple example. We generate data from a basic linear model
+*Y* = *β*<sub>0</sub> + *X*<sup>*T*</sup>*β* + *ϵ*,
+where *β*<sub>0</sub> = 1 and *ϵ* ∼ *t*<sub>2</sub>. To account for a
+high-dimensional setting, we only generate *n* = 100 observations,
+whereas the covariates *X* are generated from a standard multivariate
+gaussian distribution of dimension *p* = 500. The coefficient vector is
+set to *β*<sub>*j*</sub> = 1 for the first *j* = 1, …*s* components and
+0 elsewhere.
 
 ``` r
 library(MASS)
-library(qboost)
 set.seed(42)
 n <- 100; p <- 500; s <- 4
 beta <- rep(c(1,0),c(s+1,p-s))
 
 X = mvrnorm(n, rep(0, p), diag(p))
-err = rt(n, 2)
-Y = cbind(1, X) %*% beta + err
+epsilon = rt(n, 2)
+Y = cbind(1, X) %*% beta + epsilon
 ```
 
-What is special about using `README.Rmd` instead of just `README.md`?
-You can include R chunks like so:
+Next, we use the orthogonal variant of the qboost algorithm (WCGA, by
+setting ) and proceed with for 10 greedy selection steps.
 
 ``` r
-summary(cars)
-#>      speed           dist       
-#>  Min.   : 4.0   Min.   :  2.00  
-#>  1st Qu.:12.0   1st Qu.: 26.00  
-#>  Median :15.0   Median : 36.00  
-#>  Mean   :15.4   Mean   : 42.98  
-#>  3rd Qu.:19.0   3rd Qu.: 56.00  
-#>  Max.   :25.0   Max.   :120.00
+library(qboost)
+n_steps <- 10; tau <- .5
+model <- qboost(X,Y,tau = tau, m_stop = n_steps , h = 0.1, kernel = "Gaussian",stepsize = NULL)
+# selected covariates
+print(model$selection_path)
+#>  [1]   3   4   1   2  86  17 452  60 155 324
 ```
 
-You’ll still need to render `README.Rmd` regularly, to keep `README.md`
-up-to-date. `devtools::build_readme()` is handy for this. You could also
-use GitHub Actions to re-render `README.Rmd` every time you push. An
-example workflow can be found here:
-<a href="https://github.com/r-lib/actions/tree/master/examples" class="uri">https://github.com/r-lib/actions/tree/master/examples</a>.
+To compare the performance to the oracle model, we apply the conquer
+algorithm to the first *s* components of *X* and report the norm of the
+coefficient vectors.
 
-You can also embed plots, for example:
+``` r
+library(conquer)
+fit.conquer <- conquer(X[,1:s], Y, tau = tau, h = 0.1, kernel = "Gaussian")
+norm_conquer <- sqrt(sum((fit.conquer$coeff-beta[1:(s+1)])^2))
 
-<img src="man/figures/README-pressure-1.png" width="100%" />
+library(ggplot2)
+df <- data.frame("norm_qboost" = apply(model$coeff_path,2, function(x) sqrt(sum((x-beta)^2))),
+                 "step" = 0:n_steps)
 
-In that case, don’t forget to commit and push the resulting figure
-files, so they display on GitHub and CRAN.
+plot <- ggplot(df,aes(x = step, y = norm_qboost)) +
+  geom_line(color = "red", size = 1) + 
+  geom_hline(yintercept = norm_conquer, color = "Forestgreen", size = 1) +
+  theme(legend.position="right")
+plot
+```
+
+<img src="man/figures/README-exampleplot-1.png" width="100%" />
 
 ## References
 
