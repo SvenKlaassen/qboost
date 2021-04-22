@@ -81,11 +81,10 @@ library(ggplot2)
 df <- data.frame("norm_qboost" = apply(model$coeff_path,2, function(x) sqrt(sum((x-beta)^2))),
                  "step" = 0:n_steps)
 
-plot <- ggplot(df,aes(x = step, y = norm_qboost)) +
+ggplot(df,aes(x = step, y = norm_qboost)) +
   geom_line(color = "red", size = 1) + 
   geom_hline(yintercept = norm_conquer, color = "Forestgreen", size = 1) +
   theme(legend.position="right")
-plot
 ```
 
 <img src="man/figures/README-exampleplot-1.png" width="100%" />
