@@ -26,7 +26,7 @@ qboost <- function(X,
   #initial start
   residuals <- Y
   selection_path <- rep(NA,m_stop)
-  coeff_path <- matrix(0,dim(X)[2]+1,m_stop+1)
+  coeff_path <- Matrix::Matrix(0,dim(X)[2]+1,m_stop+1)
   for (m in 1:m_stop){
     greedy_step <- update_selection_step(X, residuals, tau, h = h, kernel = kernel)
     selection_path[m] <- greedy_step$sel_cov
