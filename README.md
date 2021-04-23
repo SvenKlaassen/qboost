@@ -31,7 +31,7 @@ the following commands:
 ``` r
 install.packages("devtools")
 library(devtools)
-install_github("SvenKlaassen/GGMtest")
+install_github("SvenKlaassen/qboost")
 ```
 
 ## Examples

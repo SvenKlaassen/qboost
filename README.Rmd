@@ -32,7 +32,7 @@ To install development version from [GitHub](https://github.com/), run the follo
 ``` r
 install.packages("devtools")
 library(devtools)
-install_github("SvenKlaassen/GGMtest")
+install_github("SvenKlaassen/qboost")
 ```
 
 ## Examples
