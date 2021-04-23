@@ -1,27 +1,3 @@
-#' Calculate the check loss.
-#'
-#' @param x A vector.
-#' @param tau A quantile.
-#'
-#' @return The average check loss.
-#' @export
-#'
-check_loss <- function(x,tau){
-  return(mean((tau-ifelse(x <= 0, 1 ,0))*x))
-}
-
-#' Calculate the gradient of the check loss.
-#'
-#' @param x A vector.
-#' @param tau A quantile.
-#'
-#' @return The gradient of the check loss.
-#' @export
-#'
-grad_check_loss <- function(x,tau){
-  return(ifelse(x <= 0,-tau,1-tau))
-}
-
 #' Calculate the smoothed check loss.
 #'
 #' @param x A vector.
@@ -82,7 +58,7 @@ grad_smooth_check_loss <- function(x,tau,h = 0.1, kernel = "Gaussian"){
     })
 
     grad = integrated_kernel-tau
-  } else if (kernel == "none"){
+  } else if (is.null(kernel)){
     grad = ifelse(x<=0,0,1)-tau
   }
   return(grad)
