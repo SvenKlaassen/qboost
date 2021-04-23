@@ -29,9 +29,7 @@ To install development version from [GitHub](https://github.com/), run
 the following commands:
 
 ``` r
-install.packages("devtools")
-library(devtools)
-install_github("SvenKlaassen/qboost")
+remotes::install_github("SvenKlaassen/qboost")
 ```
 
 ## Examples
