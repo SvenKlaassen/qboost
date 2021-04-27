@@ -50,13 +50,13 @@ epsilon = rt(n, 2)
 Y = cbind(1, X) %*% beta + epsilon
 ```
 
-Next, we use the orthogonal variant of the qboost algorithm (WCGA, by setting `r stepsize = NULL`) and proceed with for $10$ greedy selection steps.
+Next, we use the orthogonal variant of the qboost algorithm (WCGA, by setting `stepsize = NULL`) and proceed with for $10$ greedy selection steps.
 
 
 ```{r example}
 library(qboost)
 n_steps <- 10; tau <- .5
-model <- qboost(X,Y,tau = tau, m_stop = n_steps , h = 0.1, kernel = "Gaussian",stepsize = NULL)
+model <- qboost(X,Y, tau = tau, m_stop = n_steps, h = 0.1, kernel = "Gaussian", stepsize = NULL)
 # selected covariates
 print(model$selection_path)
 ```

@@ -55,15 +55,16 @@ Y = cbind(1, X) %*% beta + epsilon
 ```
 
 Next, we use the orthogonal variant of the qboost algorithm (WCGA, by
-setting ) and proceed with for 10 greedy selection steps.
+setting `stepsize = NULL`) and proceed with for 10 greedy selection
+steps.
 
 ``` r
 library(qboost)
 n_steps <- 10; tau <- .5
-model <- qboost(X,Y,tau = tau, m_stop = n_steps , h = 0.1, kernel = "Gaussian",stepsize = NULL)
+model <- qboost(X,Y, tau = tau, m_stop = n_steps, h = 0.1, kernel = "Gaussian", stepsize = NULL)
 # selected covariates
 print(model$selection_path)
-#>  [1]   3   4   1   2  86  17 452  60 155 324
+#>  [1]   3   4   1   2  86 155 127  30 324 235
 ```
 
 To compare the performance to the oracle model, we apply the conquer

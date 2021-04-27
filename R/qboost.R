@@ -31,7 +31,7 @@ qboost <- function(X,
     greedy_step <- update_selection_step(X, residuals, tau, h = h, kernel = kernel)
     selection_path[m] <- greedy_step$sel_cov
     if (is.null(stepsize)){ #WCGA
-      conquer_model <- conquer::conquer(X[,selection_path[1:m], drop = F], Y, tau = tau, kernel = kernel)
+      conquer_model <- conquer::conquer(X[,selection_path[1:m], drop = F], Y, tau = tau,h = h, kernel = kernel)
       coeff_path[c(1,selection_path[1:m]+1),m+1] <- conquer_model$coeff
       residuals <- conquer_model$residual
     } else { #WRGA
