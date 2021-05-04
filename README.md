@@ -4,6 +4,8 @@
 # qboost
 
 <!-- badges: start -->
+
+[![R-CMD-check](https://github.com/SvenKlaassen/qboost/workflows/R-CMD-check/badge.svg)](https://github.com/SvenKlaassen/qboost/actions)
 <!-- badges: end -->
 
 High-dimensional quantile regression using boosting. This repository is
