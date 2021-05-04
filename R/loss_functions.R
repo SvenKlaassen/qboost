@@ -1,13 +1,19 @@
+#' Smoothed check loss
+#'
+#' @description
 #' Calculate the smoothed check loss.
 #'
-#' @param x A vector.
-#' @param tau A quantile.
-#' @param h The bandwith for smoothing.
-#' @param kernel The kernel.
+#' @param x (`numeric()`) \cr
+#' A vector.
+#' @param tau (`numeric(1L)`) \cr
+#' A quantile.
+#' @param h (`numeric(1L)`) \cr
+#' The bandwith for smoothing.
+#' @param kernel (`character(1L)`) \cr
+#' The kernel for smoothing.
 #'
 #' @return The average smoothed check loss.
 #' @export
-#'
 smooth_check_loss <- function(x,tau,h = 0.1, kernel = "Gaussian"){
   if (is.null(kernel)){
     loss = abs(x)/2 + (tau-1/2)*x
@@ -26,16 +32,22 @@ smooth_check_loss <- function(x,tau,h = 0.1, kernel = "Gaussian"){
   return(mean(loss))
 }
 
+#' Gradient of the smoothed check loss
+#'
+#' @description
 #' Calculate the gradient of the smoothed check loss.
 #'
-#' @param x A vector.
-#' @param tau A quantile.
-#' @param h The bandwith for smoothing.
-#' @param kernel The kernel.
+#' @param x (`numeric()`) \cr
+#' A vector.
+#' @param tau (`numeric(1L)`) \cr
+#' A quantile.
+#' @param h (`numeric(1L)`) \cr
+#' The bandwith for smoothing.
+#' @param kernel (`character(1L)`) \cr
+#' The kernel for smoothing.
 #'
 #' @return The gradient of the smoothed check loss.
 #' @export
-#'
 grad_smooth_check_loss <- function(x,tau,h = 0.1, kernel = "Gaussian"){
   if (is.null(kernel)){
     grad = ifelse(x<=0,0,1)-tau

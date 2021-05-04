@@ -1,19 +1,25 @@
 #' Greedy procedure to determine the selection covariate
 #'
+#' @description
 #' Calculates the gradient of the smoothed check-loss for the residuals
 #' and selects the column of X which has the highest absolute correlation.
 #'
-#' @param X A matrix of covariates.
-#' @param residuals A vector of residuals.
-#' @param tau A quantile.
-#' @param h The bandwith for smoothing.
-#' @param kernel The kernel.
+#' @param X (`matrix`) \cr
+#' A matrix of covariates.
+#' @param residuals (`numeric()`) \cr
+#' A vector of residuals.
+#' @param tau (`numeric(1L)`) \cr
+#' A quantile.
+#' @param h (`numeric(1L)`) \cr
+#' The bandwith for smoothing.
+#' @param kernel (`character(1L)`) \cr
+#' The kernel for smoothing.
 #'
 #' @return A list with components
-#' \item{sel_cov}{The index of the selected covariates.}
-#' \item{cor}{The corresponding correlation.}
-#' @export
+#' * `sel_cov` The index of the selected covariates.
+#' * `cor` The corresponding correlation.
 #'
+#' @export
 update_selection_step <- function(X,
                                   residuals,
                                   tau,

@@ -1,21 +1,31 @@
 #' Quantile Boosting for high-dimensional data
 #'
+#' @description
 #' Applying a greedy algorithm to minimize the expected smoothed check loss.
-#' Employs the Weak Restricted Greedy Algorithm. For the orthogonal variant, set the stepsize to NULL.
+#' Employs the Weak Restricted Greedy Algorithm. For the orthogonal variant, set `stepsize` to `NULL`.
 #'
-#' @param X A matrix of covariates.
-#' @param Y A vector of responses.
-#' @param tau A quantile.
-#' @param m_stop The number of boosting steps.
-#' @param h The bandwith for smoothing.
-#' @param kernel The kernel for smoothing.
-#' @param stepsize The stepsize of the boosting procedure.
+#' @param X (`matrix`) \cr
+#' A matrix of covariates.
+#' @param Y (`numeric()`) \cr
+#' A vector of responses.
+#' @param tau (`numeric(1L)`) \cr
+#' A quantile.
+#' @param m_stop (`integer(1L)`) \cr
+#' The number of boosting steps.
+#' @param h (`numeric(1L)`) \cr
+#' The bandwith for smoothing.
+#' @param kernel (`character(1L)`) \cr
+#' The kernel for smoothing.
+#' @param stepsize (`numeric(1L)`) \cr
+#' The stepsize of the boosting procedure. Set to `NULL` for WCGA.
 #'
 #' @return A list with components
-#' \item{coeff_path}{The cofficients along the boosting steps as a matrix (starts with a zero vector).}
-#' \item{selection_path}{The selected covariates as a vector.}
-#' @export
+#' * `coeff_path` The cofficients along the boosting steps as a matrix (starts with a zero vector).
+#' * `selection_path` The selected covariates as a vector.
 #'
+#' @seealso `predict.qboost`
+#'
+#' @export
 qboost <- function(X,
                    Y,
                    tau = 0.5,
@@ -23,6 +33,15 @@ qboost <- function(X,
                    h = 0.1,
                    kernel = "Gaussian",
                    stepsize = NULL){
+  #check arguments ####
+  checkmate::assertMatrix(X)
+  checkmate::assertNumeric(Y,len = dim(X)[1])
+  checkmate::assertNumber(tau,lower = 0, upper = 1)
+  checkmate::assertIntegerish(m_stop, lower = 1)
+  checkmate::assertNumber(h,lower = 0, upper = 1)
+  checkmate::assertNumber(stepsize,null.ok = TRUE, lower = 0, upper = 1)
+  checkmate::assertChoice(kernel,null.ok = TRUE, c("Gaussian","uniform","parabolic","triangular"))
+
   #initial start
   residuals <- Y
   selection_path <- rep(NA,m_stop)
@@ -38,10 +57,44 @@ qboost <- function(X,
       coeff_path[,m+1] <- coeff_path[,m]
       coeff_path[selection_path[m]+1,m+1] <- coeff_path[selection_path[m]+1,m] - stepsize*greedy_step$cor
       coeff_path[1,m+1] <- stats::quantile(Y-X%*%coeff_path[-1,m+1],tau)
-      residuals <- Y-cbind(1,X)%*%coeff_path[,m+1]
+      residuals <- Y - (cbind(1,X) %*% coeff_path[,m+1])
     }
   }
   results <- list("coeff_path" = coeff_path,
                   "selection_path" = selection_path)
+  class(results) <- "qboost"
   return(results)
 }
+
+
+
+################# Methods for Lasso
+
+#' Methods for S3 object \code{qboost}
+#'
+#' Objects of class \code{qboost} are constructed by \code{qboost}.
+#' \code{print.qboost} prints and displays some information about fitted \code{qboost} objects.
+#' \code{summary.qboost} summarizes information of a fitted \code{qboost} object.
+#' \code{predict.qboost} predicts values based on a \code{qboost} object.
+#'
+#' @param object (`qboost`) \cr
+#' A `qboost` object.
+#' @param newdata (`matrix`) \cr
+#' A `matrix` of covariates for predicitons.
+#' @param steps (`integer()`) \cr
+#' A `vector` of integers containing the corresponding steps.
+#' @param ... arguments passed to the print function and other methods
+#' @rdname methods.qboost
+#' @aliases methods.qboost predict.qboost
+#' @export
+predict.qboost <- function(object, newdata, steps = 0, ...){
+  #checking arguments ####
+  checkmate::assertClass(object,"qboost")
+  checkmate::assertMatrix(newdata,ncols = dim(object$coeff_path)[1] - 1)
+  checkmate::assertIntegerish(steps,lower = 0, upper = length(object$selection_path))
+
+  predictions <- cbind(1,newdata) %*% object$coeff_path[,steps + 1,drop = FALSE]
+  colnames(predictions) <- paste0("Step_",steps)
+  return(predictions)
+}
+

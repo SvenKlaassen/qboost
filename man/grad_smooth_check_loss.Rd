@@ -2,18 +2,22 @@
 % Please edit documentation in R/loss_functions.R
 \name{grad_smooth_check_loss}
 \alias{grad_smooth_check_loss}
-\title{Calculate the gradient of the smoothed check loss.}
+\title{Gradient of the smoothed check loss}
 \usage{
 grad_smooth_check_loss(x, tau, h = 0.1, kernel = "Gaussian")
 }
 \arguments{
-\item{x}{A vector.}
+\item{x}{(\code{numeric()}) \cr
+A vector.}
 
-\item{tau}{A quantile.}
+\item{tau}{(\code{numeric(1L)}) \cr
+A quantile.}
 
-\item{h}{The bandwith for smoothing.}
+\item{h}{(\code{numeric(1L)}) \cr
+The bandwith for smoothing.}
 
-\item{kernel}{The kernel.}
+\item{kernel}{(\code{character(1L)}) \cr
+The kernel for smoothing.}
 }
 \value{
 The gradient of the smoothed check loss.
