@@ -6,6 +6,8 @@
 <!-- badges: start -->
 
 [![R-CMD-check](https://github.com/SvenKlaassen/qboost/workflows/R-CMD-check/badge.svg)](https://github.com/SvenKlaassen/qboost/actions)
+[![Codecov test
+coverage](https://codecov.io/gh/SvenKlaassen/qboost/branch/master/graph/badge.svg)](https://codecov.io/gh/SvenKlaassen/qboost?branch=master)
 <!-- badges: end -->
 
 High-dimensional quantile regression using boosting. This repository is

@@ -20,5 +20,6 @@ Imports:
     conquer
 Suggests: 
     testthat (>= 3.0.0),
-    patrick
+    patrick,
+    covr
 Config/testthat/edition: 3
