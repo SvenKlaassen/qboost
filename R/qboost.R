@@ -19,7 +19,7 @@
 #' @param stepsize (`numeric(1L)`) \cr
 #' The stepsize of the boosting procedure. Set to `NULL` for WCGA.
 #'
-#' @return A list with components
+#' @return An object with S3 class `qboost`
 #' * `coeff_path` The cofficients along the boosting steps as a matrix (starts with a zero vector).
 #' * `selection_path` The selected covariates as a vector.
 #'
@@ -73,8 +73,6 @@ qboost <- function(X,
 #' Methods for S3 object \code{qboost}
 #'
 #' Objects of class \code{qboost} are constructed by \code{qboost}.
-#' \code{print.qboost} prints and displays some information about fitted \code{qboost} objects.
-#' \code{summary.qboost} summarizes information of a fitted \code{qboost} object.
 #' \code{predict.qboost} predicts values based on a \code{qboost} object.
 #'
 #' @param object (`qboost`) \cr
