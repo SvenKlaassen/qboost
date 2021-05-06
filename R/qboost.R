@@ -46,6 +46,14 @@ qboost <- function(X,
   residuals <- Y
   selection_path <- rep(NA,m_stop)
   coeff_path <- Matrix::Matrix(0,dim(X)[2]+1,m_stop+1)
+  #center the covariates (not for WCGA)
+  if (!is.null(stepsize)){
+    cm <- colMeans(X, na.rm = TRUE)
+    X <- scale(X, center = cm, scale = FALSE)
+    #start at the quantile
+    coeff_path[1,1] <- stats::quantile(Y,tau)
+    residuals <- Y - coeff_path[1,1]
+  }
   for (m in 1:m_stop){
     greedy_step <- update_selection_step(X, residuals, tau, h = h, kernel = kernel)
     selection_path[m] <- greedy_step$sel_cov
@@ -56,7 +64,7 @@ qboost <- function(X,
     } else { #WRGA
       coeff_path[,m+1] <- coeff_path[,m]
       coeff_path[selection_path[m]+1,m+1] <- coeff_path[selection_path[m]+1,m] - stepsize*greedy_step$cor
-      coeff_path[1,m+1] <- stats::quantile(Y-X%*%coeff_path[-1,m+1],tau)
+      coeff_path[1,m+1] <- coeff_path[1,m+1] + stepsize*greedy_step$cor*cm[selection_path[m]]
       residuals <- Y - (cbind(1,X) %*% coeff_path[,m+1])
     }
   }
