@@ -21,7 +21,5 @@ A \code{vector} of integers containing the corresponding steps.}
 }
 \description{
 Objects of class \code{qboost} are constructed by \code{qboost}.
-\code{print.qboost} prints and displays some information about fitted \code{qboost} objects.
-\code{summary.qboost} summarizes information of a fitted \code{qboost} object.
 \code{predict.qboost} predicts values based on a \code{qboost} object.
 }

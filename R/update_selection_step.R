@@ -25,6 +25,13 @@ update_selection_step <- function(X,
                                   tau,
                                   h = 0.1,
                                   kernel = "Gaussian"){
+  #check arguments ####
+  checkmate::assertMatrix(X)
+  checkmate::assertNumeric(residuals,len = dim(X)[1])
+  checkmate::assertNumber(tau,lower = 0, upper = 1)
+  checkmate::assertNumber(h,lower = 0, upper = 1, null.ok = TRUE)
+  checkmate::assertChoice(kernel,null.ok = TRUE, c("Gaussian","uniform","parabolic","triangular"))
+
   #calculate the gradient
   grad <- grad_smooth_check_loss(-residuals, tau, h, kernel)
   sel_cov <- which.max(abs(stats::cor(grad,X)))

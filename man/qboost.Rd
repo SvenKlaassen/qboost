@@ -37,7 +37,7 @@ The kernel for smoothing.}
 The stepsize of the boosting procedure. Set to \code{NULL} for WCGA.}
 }
 \value{
-A list with components
+An object with S3 class \code{qboost}
 \itemize{
 \item \code{coeff_path} The cofficients along the boosting steps as a matrix (starts with a zero vector).
 \item \code{selection_path} The selected covariates as a vector.

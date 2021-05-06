@@ -38,7 +38,7 @@ qboost <- function(X,
   checkmate::assertNumeric(Y,len = dim(X)[1])
   checkmate::assertNumber(tau,lower = 0, upper = 1)
   checkmate::assertIntegerish(m_stop, lower = 1)
-  checkmate::assertNumber(h,lower = 0, upper = 1)
+  checkmate::assertNumber(h,lower = 0, upper = 1, null.ok = TRUE)
   checkmate::assertNumber(stepsize,null.ok = TRUE, lower = 0, upper = 1)
   checkmate::assertChoice(kernel,null.ok = TRUE, c("Gaussian","uniform","parabolic","triangular"))
 
@@ -50,7 +50,7 @@ qboost <- function(X,
     greedy_step <- update_selection_step(X, residuals, tau, h = h, kernel = kernel)
     selection_path[m] <- greedy_step$sel_cov
     if (is.null(stepsize)){ #WCGA
-      conquer_model <- conquer::conquer(X[,selection_path[1:m], drop = F], Y, tau = tau,h = h, kernel = kernel)
+      conquer_model <- conquer::conquer(X[,selection_path[1:m], drop = F], Y, tau = tau, h = h, kernel = kernel)
       coeff_path[c(1,selection_path[1:m]+1),m+1] <- conquer_model$coeff
       residuals <- conquer_model$residual
     } else { #WRGA
@@ -68,7 +68,7 @@ qboost <- function(X,
 
 
 
-################# Methods for Lasso
+################# Methods for Quantile Boosting
 
 #' Methods for S3 object \code{qboost}
 #'
