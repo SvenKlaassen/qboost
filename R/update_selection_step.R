@@ -34,7 +34,13 @@ update_selection_step <- function(X,
 
   #calculate the gradient
   grad <- grad_smooth_check_loss(-residuals, tau, h, kernel)
-  sel_cov <- which.max(abs(stats::cor(grad,X)))
-  results <- list("sel_cov" = sel_cov, "cor" = stats::cor(grad,X)[sel_cov])
+  if (stats::sd(grad) == 0){
+    sel_cov <- NA
+    correlation <- grad[1]
+  } else {
+    sel_cov <- which.max(abs(stats::cor(grad,X)))
+    correlation <- stats::cor(grad,X)[sel_cov]
+  }
+  results <- list("sel_cov" = sel_cov, "cor" = correlation)
   return(results)
 }
