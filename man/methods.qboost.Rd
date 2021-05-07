@@ -3,9 +3,12 @@
 \name{predict.qboost}
 \alias{predict.qboost}
 \alias{methods.qboost}
+\alias{coef.qboost}
 \title{Methods for S3 object \code{qboost}}
 \usage{
 \method{predict}{qboost}(object, newdata, steps = 0, ...)
+
+\method{coef}{qboost}(object, steps = NULL, ...)
 }
 \arguments{
 \item{object}{(\code{qboost}) \cr
