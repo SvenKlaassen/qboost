@@ -26,6 +26,9 @@ patrick::with_parameters_test_that("Unit tests for WCGA",
                            newdata = X,
                            steps = 1:steps)
     testthat::expect_equal(dim(predictions),c(n,steps))
+    testthat::expect_equal(dim(coef(model)),c(p + 1,1))
+    testthat::expect_equal(dim(coef(model,step = c(1,10))),c(p + 1,2))
+    testthat::expect_equal(coef(model,step = c(0)),model$coeff_path[,1,drop = FALSE])
   }
 )
 

@@ -107,3 +107,17 @@ predict.qboost <- function(object, newdata, steps = 0, ...){
   return(predictions)
 }
 
+#' @rdname methods.qboost
+#' @export
+
+coef.qboost <- function(object, steps = NULL, ...){
+  #checking arguments ####
+  checkmate::assertClass(object,"qboost")
+  checkmate::assertIntegerish(steps,lower = 0, upper = length(object$selection_path), null.ok = TRUE)
+
+  if (is.null(steps)){
+    steps <- dim(object$coeff_path)[2] - 1
+  }
+  results <- object$coeff_path[,steps + 1,drop = FALSE]
+  return(results)
+}
