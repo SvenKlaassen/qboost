@@ -42,7 +42,7 @@ remotes::install_github("SvenKlaassen/qboost")
 A simple example. We generate data from a basic linear model
 *Y* = *β*<sub>0</sub> + *X*<sup>*T*</sup>*β* + *ϵ*,
 where *β*<sub>0</sub> = 1 and *ϵ* ∼ *t*<sub>2</sub>. To account for a
-high-dimensional setting, we only generate *n* = 100 observations,
+high-dimensional setting, we only generate *n* = 200 observations,
 whereas the covariates *X* are generated from a standard multivariate
 gaussian distribution of dimension *p* = 500. The coefficient vector is
 set to *β*<sub>*j*</sub> = 1 for the first *j* = 1, …*s* components and
@@ -51,7 +51,7 @@ set to *β*<sub>*j*</sub> = 1 for the first *j* = 1, …*s* components
 ``` r
 library(MASS)
 set.seed(42)
-n <- 100; p <- 500; s <- 4
+n <- 200; p <- 500; s <- 4
 beta <- rep(c(1,0),c(s+1,p-s))
 
 X = mvrnorm(n, rep(0, p), diag(p))
@@ -65,11 +65,17 @@ steps.
 
 ``` r
 library(qboost)
-n_steps <- 10; tau <- .5
-model <- qboost(X,Y, tau = tau, m_stop = n_steps, h = 0.1, kernel = "Gaussian", stepsize = NULL)
+n_steps <- 199; tau <- .5
+model_WCGA <- qboost(X,Y, tau = tau, m_stop = n_steps, h = 0.2, kernel = "Gaussian", stepsize = NULL)
 # selected covariates
-print(model$selection_path)
-#>  [1]   3   4   1   2  86 155 127  30 324 235
+print(model_WCGA$selection_path[1:10])
+#>  [1]   3   1   2   4 410 343 451 261 433 422
+```
+
+Additionally, we employ the Weak Restricted Greedy Algorithm.
+
+``` r
+model_WRGA <- qboost(X,Y, tau = tau, m_stop = n_steps, h = 0.2, kernel = "Gaussian", stepsize = 0.1)
 ```
 
 To compare the performance to the oracle model, we apply the conquer
@@ -78,17 +84,29 @@ coefficient vectors.
 
 ``` r
 library(conquer)
-fit.conquer <- conquer(X[,1:s], Y, tau = tau, h = 0.1, kernel = "Gaussian")
+fit.conquer <- conquer(X[,1:s], Y, tau = tau, h = 0.2, kernel = "Gaussian")
 norm_conquer <- sqrt(sum((fit.conquer$coeff-beta[1:(s+1)])^2))
 
 library(ggplot2)
-df <- data.frame("norm_qboost" = apply(model$coeff_path,2, function(x) sqrt(sum((x-beta)^2))),
-                 "step" = 0:n_steps)
+library(reshape2)
+df <- melt(data.frame("norm_WCGA" = apply(model_WCGA$coeff_path,2,
+                                       function(x) sqrt(sum((x-beta)^2))),
+                 "norm_WRGA" = apply(model_WRGA$coeff_path,2,
+                                       function(x) sqrt(sum((x-beta)^2))),
+                 "step" = 0:n_steps),
+            id = c("step"))
+        
 
-ggplot(df,aes(x = step, y = norm_qboost)) +
-  geom_line(color = "red", size = 1) + 
+ggplot(df) +
+  geom_line(aes(x = step,y = value, color = variable), size = 1) + 
+  scale_colour_manual(values=c("red","blue")) +
   geom_hline(yintercept = norm_conquer, color = "Forestgreen", size = 1) +
-  theme(legend.position="right")
+  ylim(c(0,2.5)) +
+  labs(title = "Norm of the estimators with increasing stepsize",
+       x = "Steps",
+       y = "Norm",
+       colour = "Algorithm") +
+  theme(legend.position = 'bottom')
 ```
 
 <img src="man/figures/README-exampleplot-1.png" width="100%" />

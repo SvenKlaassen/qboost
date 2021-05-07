@@ -22,3 +22,11 @@ test_that("selection step works without smoothing", {
   expect_equal(res$sel_cov,1)
   expect_equal(res$cor,1)
 })
+
+test_that("selection step works with degenerate gradient", {
+  X <- cbind(c(1,2), c(2,-2))
+  residuals <- c(4,4)
+  res <- update_selection_step(X,residuals,tau = 0.5,kernel = NULL)
+  expect_identical(res$sel_cov,NA)
+  expect_equal(res$cor,-0.5)
+})
