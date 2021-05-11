@@ -54,7 +54,11 @@ qboost <- function(X,
     X <- scale(X, center = cm, scale = FALSE)
   }
   for (m in 1:m_stop){
-    greedy_step <- update_selection_step(X, residuals, tau, h = h, kernel = kernel)
+    greedy_step <- update_selection_step(X = X,
+                                         residuals = as.numeric(residuals),
+                                         tau = tau,
+                                         h = h,
+                                         kernel = kernel)
     selection_path[m] <- greedy_step$sel_cov
     if (is.null(stepsize)){ #WCGA
       conquer_model <- conquer::conquer(X[,selection_path[1:m], drop = F], Y, tau = tau, h = h, kernel = kernel)
@@ -68,7 +72,7 @@ qboost <- function(X,
         coeff_path[selection_path[m]+1,m+1] <- coeff_path[selection_path[m]+1,m] - stepsize*greedy_step$cor
         coeff_path[1,m+1] <- coeff_path[1,m+1] + stepsize*greedy_step$cor*cm[selection_path[m]]
       }
-      residuals <- Y - (coeff_path[1,m+1] + X %*% coeff_path[-1,m+1])
+      residuals <- Y - (coeff_path[1,m+1] + X %*% coeff_path[-1,m+1,drop = F])
     }
   }
   results <- list("coeff_path" = coeff_path,
