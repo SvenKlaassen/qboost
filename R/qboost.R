@@ -68,7 +68,7 @@ qboost <- function(X,
         coeff_path[selection_path[m]+1,m+1] <- coeff_path[selection_path[m]+1,m] - stepsize*greedy_step$cor
         coeff_path[1,m+1] <- coeff_path[1,m+1] + stepsize*greedy_step$cor*cm[selection_path[m]]
       }
-      residuals <- Y - (cbind(1,X) %*% coeff_path[,m+1])
+      residuals <- Y - (coeff_path[1,m+1] + X %*% coeff_path[-1,m+1])
     }
   }
   results <- list("coeff_path" = coeff_path,
@@ -102,7 +102,7 @@ predict.qboost <- function(object, newdata, steps = 0, ...){
   checkmate::assertMatrix(newdata,ncols = dim(object$coeff_path)[1] - 1)
   checkmate::assertIntegerish(steps,lower = 0, upper = length(object$selection_path))
 
-  predictions <- cbind(1,newdata) %*% object$coeff_path[,steps + 1,drop = FALSE]
+  predictions <- Matrix::t(object$coeff_path[1,steps + 1] + Matrix::t(newdata %*% object$coeff_path[-1,steps + 1,drop = FALSE]))
   colnames(predictions) <- paste0("Step_",steps)
   return(predictions)
 }
