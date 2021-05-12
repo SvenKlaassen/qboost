@@ -50,16 +50,31 @@ smooth_check_loss <- function(x,tau,h = 0.1, kernel = "Gaussian"){
 #' @export
 grad_smooth_check_loss <- function(x,tau,h = 0.1, kernel = "Gaussian"){
   if (is.null(kernel)){
-    grad = ifelse(x<=0,0,1)-tau
+    integrated_kernel <- ifelse(x <= 0, 0, 1)
   } else if (kernel == "Gaussian"){
-    grad = fda.usc::Kernel.integrate(u=x/h,Ker=fda.usc::Ker.norm)-tau
+    integrated_kernel <- stats::pnorm(x/h)
   } else if (kernel == "uniform"){
-    grad = fda.usc::Kernel.integrate(u=x/h,Ker=fda.usc::Ker.unif)-tau
+    integrated_kernel <- sapply(x/h,function(x){
+      if (x <= -1){
+        return(0)
+      } else if (x >= 1){
+        return(1)
+      } else {
+        return(0.5*(x+1))
+      }
+    })
   } else if (kernel == "parabolic"){
-    grad = fda.usc::Kernel.integrate(u=x/h,Ker=fda.usc::Ker.epa)-tau
+    integrated_kernel <- sapply(x/h,function(x){
+      if (x <= -1){
+        return(0)
+      } else if (x >= 1){
+        return(1)
+      } else {
+        return(0.5 + 3/4*x - x^3/4)
+      }
+    })
   } else if (kernel == "triangular"){
-    x_rescale <- x/h
-    integrated_kernel <- sapply(x_rescale,function(x){
+    integrated_kernel <- sapply(x/h,function(x){
       if (x <= -1){
         return(0)
       } else if (x >= 1){
@@ -70,9 +85,8 @@ grad_smooth_check_loss <- function(x,tau,h = 0.1, kernel = "Gaussian"){
         return(.5+x-1/2*x^2)
       }
     })
-
-    grad = integrated_kernel-tau
   }
+  grad <- integrated_kernel - tau
   return(grad)
 }
 

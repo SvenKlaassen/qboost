@@ -16,7 +16,6 @@ Imports:
     stats,
     checkmate,
     Matrix,
-    fda.usc,
     conquer
 Suggests: 
     testthat (>= 3.0.0),
