@@ -15,26 +15,38 @@ qboost(
 )
 }
 \arguments{
-\item{X}{A matrix of covariates.}
+\item{X}{(\code{matrix}) \cr
+A matrix of covariates.}
 
-\item{Y}{A vector of responses.}
+\item{Y}{(\code{numeric()}) \cr
+A vector of responses.}
 
-\item{tau}{A quantile.}
+\item{tau}{(\code{numeric(1L)}) \cr
+A quantile.}
 
-\item{m_stop}{The number of boosting steps.}
+\item{m_stop}{(\code{integer(1L)}) \cr
+The number of boosting steps.}
 
-\item{h}{The bandwith for smoothing.}
+\item{h}{(\code{numeric(1L)}) \cr
+The bandwith for smoothing.}
 
-\item{kernel}{The kernel for smoothing.}
+\item{kernel}{(\code{character(1L)}) \cr
+The kernel for smoothing.}
 
-\item{stepsize}{The stepsize of the boosting procedure.}
+\item{stepsize}{(\code{numeric(1L)}) \cr
+The stepsize of the boosting procedure. Set to \code{NULL} for WCGA.}
 }
 \value{
-A list with components
-\item{coeff_path}{The cofficients along the boosting steps as a matrix (starts with a zero vector).}
-\item{selection_path}{The selected covariates as a vector.}
+An object with S3 class \code{qboost}
+\itemize{
+\item \code{coeff_path} The cofficients along the boosting steps as a matrix (starts with a zero vector).
+\item \code{selection_path} The selected covariates as a vector.
+}
 }
 \description{
 Applying a greedy algorithm to minimize the expected smoothed check loss.
-Employs the Weak Restricted Greedy Algorithm. For the orthogonal variant, set the stepsize to NULL.
+Employs the Weak Restricted Greedy Algorithm. For the orthogonal variant, set \code{stepsize} to \code{NULL}.
+}
+\seealso{
+\code{predict.qboost}
 }

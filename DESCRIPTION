@@ -12,7 +12,14 @@ Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.1
-Imports: stats, fda.usc, conquer, Matrix
+Imports: 
+    stats,
+    checkmate,
+    Matrix,
+    fda.usc,
+    conquer
 Suggests: 
-    testthat (>= 3.0.0), patrick
+    testthat (>= 3.0.0),
+    patrick,
+    covr
 Config/testthat/edition: 3

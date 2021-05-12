@@ -2,18 +2,22 @@
 % Please edit documentation in R/loss_functions.R
 \name{smooth_check_loss}
 \alias{smooth_check_loss}
-\title{Calculate the smoothed check loss.}
+\title{Smoothed check loss}
 \usage{
 smooth_check_loss(x, tau, h = 0.1, kernel = "Gaussian")
 }
 \arguments{
-\item{x}{A vector.}
+\item{x}{(\code{numeric()}) \cr
+A vector.}
 
-\item{tau}{A quantile.}
+\item{tau}{(\code{numeric(1L)}) \cr
+A quantile.}
 
-\item{h}{The bandwith for smoothing.}
+\item{h}{(\code{numeric(1L)}) \cr
+The bandwith for smoothing.}
 
-\item{kernel}{The kernel.}
+\item{kernel}{(\code{character(1L)}) \cr
+The kernel for smoothing.}
 }
 \value{
 The average smoothed check loss.

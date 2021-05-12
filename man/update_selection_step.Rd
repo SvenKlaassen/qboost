@@ -7,20 +7,27 @@
 update_selection_step(X, residuals, tau, h = 0.1, kernel = "Gaussian")
 }
 \arguments{
-\item{X}{A matrix of covariates.}
+\item{X}{(\code{matrix}) \cr
+A matrix of covariates.}
 
-\item{residuals}{A vector of residuals.}
+\item{residuals}{(\code{numeric()}) \cr
+A vector of residuals.}
 
-\item{tau}{A quantile.}
+\item{tau}{(\code{numeric(1L)}) \cr
+A quantile.}
 
-\item{h}{The bandwith for smoothing.}
+\item{h}{(\code{numeric(1L)}) \cr
+The bandwith for smoothing.}
 
-\item{kernel}{The kernel.}
+\item{kernel}{(\code{character(1L)}) \cr
+The kernel for smoothing.}
 }
 \value{
 A list with components
-\item{sel_cov}{The index of the selected covariates.}
-\item{cor}{The corresponding correlation.}
+\itemize{
+\item \code{sel_cov} The index of the selected covariates.
+\item \code{cor} The corresponding correlation.
+}
 }
 \description{
 Calculates the gradient of the smoothed check-loss for the residuals
