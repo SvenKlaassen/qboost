@@ -125,4 +125,4 @@ ggplot(df) +
 -   Fernandes, Marcelo, Emmanuel Guerre, and Eduardo Horta. “Smoothing
     quantile regressions.” Journal of Business & Economic Statistics
     39.1 (2021): 338-357.
-    [Paper](https://www.tandfonline.com/doi/full/10.1080/07350015.2019.1660177?casa_token=bkJ73Q8oXYIAAAAA%3A0g8P9Bb5elGlCBU8_bsuN_oLauFgMfQcojZmI4ERJO1WVD1M5UOw1RLRix7mMxDMMWukfZR-sbE)
+    [Paper](https://www.tandfonline.com/doi/full/10.1080/07350015.2019.1660177?scroll=top&needAccess=true)
