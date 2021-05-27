@@ -38,7 +38,7 @@ qboost <- function(X,
   checkmate::assertNumeric(Y, len = dim(X)[1])
   checkmate::assertNumber(tau, lower = 0, upper = 1)
   checkmate::assertIntegerish(m_stop, lower = 1)
-  checkmate::assertNumber(h, lower = 0, upper = 1, null.ok = TRUE)
+  checkmate::assertNumber(h, lower = 0, upper = 1)
   checkmate::assertNumber(stepsize, null.ok = TRUE, lower = 0, upper = 1)
   checkmate::assertChoice(kernel, null.ok = TRUE, c("Gaussian","uniform","parabolic","triangular"))
 
