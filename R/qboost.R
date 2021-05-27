@@ -35,12 +35,12 @@ qboost <- function(X,
                    stepsize = NULL){
   #check arguments ####
   checkmate::assertMatrix(X)
-  checkmate::assertNumeric(Y,len = dim(X)[1])
-  checkmate::assertNumber(tau,lower = 0, upper = 1)
+  checkmate::assertNumeric(Y, len = dim(X)[1])
+  checkmate::assertNumber(tau, lower = 0, upper = 1)
   checkmate::assertIntegerish(m_stop, lower = 1)
-  checkmate::assertNumber(h,lower = 0, upper = 1, null.ok = TRUE)
-  checkmate::assertNumber(stepsize,null.ok = TRUE, lower = 0, upper = 1)
-  checkmate::assertChoice(kernel,null.ok = TRUE, c("Gaussian","uniform","parabolic","triangular"))
+  checkmate::assertNumber(h, lower = 0, upper = 1, null.ok = TRUE)
+  checkmate::assertNumber(stepsize, null.ok = TRUE, lower = 0, upper = 1)
+  checkmate::assertChoice(kernel, null.ok = TRUE, c("Gaussian","uniform","parabolic","triangular"))
 
   #initial start
   selection_path <- rep(NA,m_stop)
@@ -100,12 +100,14 @@ qboost <- function(X,
 #' @rdname methods.qboost
 #' @aliases methods.qboost predict.qboost
 #' @export
-predict.qboost <- function(object, newdata, steps = 0, ...){
+predict.qboost <- function(object, newdata, steps = NULL, ...){
   #checking arguments ####
   checkmate::assertClass(object,"qboost")
   checkmate::assertMatrix(newdata,ncols = dim(object$coeff_path)[1] - 1)
-  checkmate::assertIntegerish(steps,lower = 0, upper = length(object$selection_path))
-
+  checkmate::assertIntegerish(steps,lower = 0, upper = length(object$selection_path), null.ok = TRUE)
+  if (is.null(steps)){
+    steps <- length(object$selection_path)
+  }
   predictions <- Matrix::t(object$coeff_path[1,steps + 1] + Matrix::t(newdata %*% object$coeff_path[-1,steps + 1,drop = FALSE]))
   colnames(predictions) <- paste0("Step_",steps)
   return(predictions)

@@ -6,7 +6,7 @@
 \alias{coef.qboost}
 \title{Methods for S3 object \code{qboost}}
 \usage{
-\method{predict}{qboost}(object, newdata, steps = 0, ...)
+\method{predict}{qboost}(object, newdata, steps = NULL, ...)
 
 \method{coef}{qboost}(object, steps = NULL, ...)
 }
