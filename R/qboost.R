@@ -29,7 +29,7 @@
 qboost <- function(X,
                    Y,
                    tau = 0.5,
-                   m_stop = 50,
+                   m_stop = 1,
                    h = 0.1,
                    kernel = "Gaussian",
                    stepsize = NULL){
