@@ -70,6 +70,11 @@ Additionally, we employ the Weak Restricted Greedy Algorithm.
 model_WRGA <- qboost(X,Y, tau = tau, m_stop = n_steps, h = 0.2, kernel = "Gaussian", stepsize = 0.1)
 ```
 
+At first let us take a look at the Loss
+```{r exampleloss}
+autoplot(model_WRGA, newdata = X_t)
+```
+
 
 To compare the performance to the oracle model, we apply the conquer algorithm to the first $s$ components of $X$ and report the norm of the coefficient vectors.
 

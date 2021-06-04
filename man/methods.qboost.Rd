@@ -4,11 +4,14 @@
 \alias{predict.qboost}
 \alias{methods.qboost}
 \alias{coef.qboost}
+\alias{autoplot.qboost}
 \title{Methods for S3 object \code{qboost}}
 \usage{
 \method{predict}{qboost}(object, newdata, steps = NULL, ...)
 
 \method{coef}{qboost}(object, steps = NULL, ...)
+
+\method{autoplot}{qboost}(object, new_Y, newdata, steps = NULL, ...)
 }
 \arguments{
 \item{object}{(\code{qboost}) \cr
@@ -21,6 +24,9 @@ A \code{matrix} of covariates for predicitons.}
 A \code{vector} of integers containing the corresponding steps.}
 
 \item{...}{arguments passed to the print function and other methods}
+
+\item{new_Y}{(\code{numeric()})\cr
+A vector of responses (only for evaluation).}
 }
 \description{
 Objects of class \code{qboost} are constructed by \code{qboost}.

@@ -16,7 +16,8 @@ Imports:
     stats,
     checkmate,
     Matrix,
-    conquer
+    conquer,
+    ggplot2
 Suggests: 
     testthat (>= 3.0.0),
     patrick,

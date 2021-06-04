@@ -75,8 +75,10 @@ qboost <- function(X,
       residuals <- Y - (coeff_path[1,m+1] + X %*% coeff_path[-1,m+1,drop = F])
     }
   }
+  params <- list("tau" = tau, h = h, kernel = kernel)
   results <- list("coeff_path" = coeff_path,
-                  "selection_path" = selection_path)
+                  "selection_path" = selection_path,
+                  "params" = params)
   class(results) <- "qboost"
   return(results)
 }
@@ -92,13 +94,16 @@ qboost <- function(X,
 #'
 #' @param object (`qboost`) \cr
 #' A `qboost` object.
+#' @param new_Y (`numeric()`)\cr
+#' A vector of responses (only for evaluation).
 #' @param newdata (`matrix`) \cr
 #' A `matrix` of covariates for predicitons.
 #' @param steps (`integer()`) \cr
 #' A `vector` of integers containing the corresponding steps.
 #' @param ... arguments passed to the print function and other methods
 #' @rdname methods.qboost
-#' @aliases methods.qboost predict.qboost
+#' @aliases methods.qboost predict.qboost coef.qboost autoplot.qboost
+#' @method predict qboost
 #' @export
 predict.qboost <- function(object, newdata, steps = NULL, ...){
   #checking arguments ####
@@ -115,7 +120,6 @@ predict.qboost <- function(object, newdata, steps = NULL, ...){
 
 #' @rdname methods.qboost
 #' @export
-
 coef.qboost <- function(object, steps = NULL, ...){
   #checking arguments ####
   checkmate::assertClass(object,"qboost")
@@ -126,4 +130,35 @@ coef.qboost <- function(object, steps = NULL, ...){
   }
   results <- object$coeff_path[,steps + 1,drop = FALSE]
   return(results)
+}
+
+#' @rdname methods.qboost
+#' @importFrom ggplot2 autoplot
+#' @method autoplot qboost
+#' @export
+autoplot.qboost <- function(object, new_Y, newdata, steps = NULL, ...){
+  #checking arguments ####
+  checkmate::assertClass(object,"qboost")
+  checkmate::assertMatrix(newdata,ncols = dim(object$coeff_path)[1] - 1)
+  checkmate::assertIntegerish(steps,lower = 0, upper = length(object$selection_path), null.ok = TRUE)
+
+  if (is.null(steps)){
+    steps <- 1:dim(object$coeff_path)[2] - 1
+  }
+
+  residuals <- new_Y - Matrix::t(object$coeff_path[1,steps + 1] + Matrix::t(newdata %*% object$coeff_path[-1,steps + 1,drop = FALSE]))
+  loss_vec <- apply(residuals, 2, function(x) smooth_check_loss(x,tau = object$params$tau, kernel = NULL))
+  smoothed_loss_vec <- apply(residuals, 2, function(x) smooth_check_loss(x,
+                                                                         tau = object$params$tau,
+                                                                         h = object$params$h,
+                                                                         kernel = object$params$kernel))
+  df_plot <- data.frame("Loss" = c(loss_vec,smoothed_loss_vec),
+                        "Step" = rep(steps,2),
+                        "Type" = rep(c("Check Loss", "Smoothed Check Loss"), each = length(steps)))
+  Step.values <- Loss.values <- Type.values <- NULL
+  plot <- ggplot2::ggplot(data = df_plot, ggplot2::aes(x = Step.values, y = Loss.values, color = Type.values)) +
+    ggplot2::geom_line() +
+    ggplot2::theme(legend.position = "bottom") +
+    ggplot2::scale_colour_manual(values = c("blue","red"))
+  return(plot)
 }
