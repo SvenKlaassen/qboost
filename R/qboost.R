@@ -155,8 +155,8 @@ autoplot.qboost <- function(object, new_Y, newdata, steps = NULL, ...){
   df_plot <- data.frame("Loss" = c(loss_vec,smoothed_loss_vec),
                         "Step" = rep(steps,2),
                         "Type" = rep(c("Check Loss", "Smoothed Check Loss"), each = length(steps)))
-  Step.values <- Loss.values <- Type.values <- NULL
-  plot <- ggplot2::ggplot(data = df_plot, ggplot2::aes(x = Step.values, y = Loss.values, color = Type.values)) +
+  .data <- NULL
+  plot <- ggplot2::ggplot(data = df_plot, ggplot2::aes(x = .data$Step, y = .data$Loss, color = .data$Type)) +
     ggplot2::geom_line() +
     ggplot2::theme(legend.position = "bottom") +
     ggplot2::scale_colour_manual(values = c("blue","red"))

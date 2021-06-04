@@ -89,7 +89,7 @@ Additionally, we employ the Weak Restricted Greedy Algorithm.
 model_WRGA <- qboost(X,Y, tau = tau, m_stop = n_steps, h = 0.2, kernel = "Gaussian", stepsize = 0.1)
 ```
 
-Again, the loss looks like this
+Again, the loss looks is minimized
 
 ``` r
 autoplot(model_WRGA, new_Y = Y, newdata = X)
