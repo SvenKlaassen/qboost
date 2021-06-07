@@ -22,6 +22,7 @@
 #' @return An object with S3 class `qboost`
 #' * `coeff_path` The cofficients along the boosting steps as a matrix (starts with a zero vector).
 #' * `selection_path` The selected covariates as a vector.
+#' * `params` Additional parameters.
 #'
 #' @seealso `predict.qboost`
 #'
@@ -75,7 +76,7 @@ qboost <- function(X,
       residuals <- Y - (coeff_path[1,m+1] + X %*% coeff_path[-1,m+1,drop = F])
     }
   }
-  params <- list("tau" = tau, h = h, kernel = kernel)
+  params <- list("tau" = tau, "h" = h, "kernel" = kernel)
   results <- list("coeff_path" = coeff_path,
                   "selection_path" = selection_path,
                   "params" = params)
@@ -109,9 +110,13 @@ predict.qboost <- function(object, newdata, steps = NULL, ...){
   #checking arguments ####
   checkmate::assertClass(object,"qboost")
   checkmate::assertMatrix(newdata,ncols = dim(object$coeff_path)[1] - 1)
-  checkmate::assertIntegerish(steps,lower = 0, upper = length(object$selection_path), null.ok = TRUE)
+  checkmate::assertIntegerish(steps,lower = 0, upper = dim(object$coeff_path)[2]-1, null.ok = TRUE)
   if (is.null(steps)){
-    steps <- length(object$selection_path)
+    if (is.null(object$cv_m_stop)){
+      steps <- dim(object$coeff_path)[2] - 1
+    } else {
+      steps <- object$cv_m_stop
+    }
   }
   predictions <- Matrix::t(object$coeff_path[1,steps + 1] + Matrix::t(newdata %*% object$coeff_path[-1,steps + 1,drop = FALSE]))
   colnames(predictions) <- paste0("Step_",steps)
@@ -123,7 +128,7 @@ predict.qboost <- function(object, newdata, steps = NULL, ...){
 coef.qboost <- function(object, steps = NULL, ...){
   #checking arguments ####
   checkmate::assertClass(object,"qboost")
-  checkmate::assertIntegerish(steps,lower = 0, upper = length(object$selection_path), null.ok = TRUE)
+  checkmate::assertIntegerish(steps,lower = 0, upper = dim(object$coeff_path)[2]-1, null.ok = TRUE)
 
   if (is.null(steps)){
     steps <- dim(object$coeff_path)[2] - 1
@@ -140,7 +145,7 @@ autoplot.qboost <- function(object, new_Y, newdata, steps = NULL, ...){
   #checking arguments ####
   checkmate::assertClass(object,"qboost")
   checkmate::assertMatrix(newdata,ncols = dim(object$coeff_path)[1] - 1)
-  checkmate::assertIntegerish(steps,lower = 0, upper = length(object$selection_path), null.ok = TRUE)
+  checkmate::assertIntegerish(steps,lower = 0, upper = dim(object$coeff_path)[2]-1, null.ok = TRUE)
 
   if (is.null(steps)){
     steps <- 1:dim(object$coeff_path)[2] - 1
@@ -159,6 +164,24 @@ autoplot.qboost <- function(object, new_Y, newdata, steps = NULL, ...){
   plot <- ggplot2::ggplot(data = df_plot, ggplot2::aes(x = .data$Step, y = .data$Loss, color = .data$Type)) +
     ggplot2::geom_line() +
     ggplot2::theme(legend.position = "bottom") +
-    ggplot2::scale_colour_manual(values = c("blue","red"))
+    ggplot2::scale_colour_manual(values = c("Forestgreen","blue","red"))
+
+  if (!is.null(object$cv_m_stop)){
+    df_cv_loss <- data.frame("cv_loss" = object$loss,
+                             "Step" = 1:length(object$loss),
+                             "Type" = "CV-Loss")
+    plot <- plot +
+      ggplot2::geom_vline(ggplot2::aes(xintercept = object$cv_m_stop),
+                                      color = "black",
+                                      linetype = "dashed") +
+      ggplot2::geom_text(ggplot2::aes(x = object$cv_m_stop, label = "cv_m_stop", y = object$loss[object$cv_m_stop]),
+                         colour="black",
+                         angle=90,
+                         vjust = 1.2,
+                         hjust = -1) +
+      ggplot2::geom_line(data = df_cv_loss, ggplot2::aes(x = .data$Step,
+                                                         y = .data$cv_loss,
+                                                         color = .data$Type))
+  }
   return(plot)
 }

@@ -74,28 +74,11 @@ print(model_WCGA$selection_path[1:10])
 #>  [1]   3   1   2   4 410 343 451 261 433 422
 ```
 
-At first let us take a look at the Loss
-
-``` r
-library(ggplot2)
-autoplot(model_WCGA, new_Y = Y, newdata = X)
-```
-
-<img src="man/figures/README-exampleloss1-1.png" width="100%" />
-
 Additionally, we employ the Weak Restricted Greedy Algorithm.
 
 ``` r
 model_WRGA <- qboost(X,Y, tau = tau, m_stop = n_steps, h = 0.2, kernel = "Gaussian", stepsize = 0.1)
 ```
-
-Again, the loss looks is minimized
-
-``` r
-autoplot(model_WRGA, new_Y = Y, newdata = X)
-```
-
-<img src="man/figures/README-exampleloss2-1.png" width="100%" />
 
 To compare the performance to the oracle model, we apply the conquer
 algorithm to the first *s* components of *X* and report the norm of the
