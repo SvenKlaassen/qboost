@@ -1,5 +1,6 @@
 ---
 title: "qboost - Quantile Boosting"
+author: "Sven Klaassen"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
@@ -12,6 +13,13 @@ vignette: >
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
+)
+
+knitr::opts_chunk$set(
+ fig.width = 6,
+ fig.asp = 0.8,
+ out.width = "80%",
+ fig.align = "center"
 )
 ```
 
@@ -44,23 +52,23 @@ model_WCGA <- qboost(X,Y, tau = tau, m_stop = n_steps, h = 0.2, kernel = "Gaussi
 print(model_WCGA$selection_path[1:10])
 ```
 At first let us take a look at the Loss
-```{r exampleloss1}
+```{r fig1}
 library(ggplot2)
 autoplot(model_WCGA, new_Y = Y, newdata = X)
 ```
 
-Additionally, we can employ the Weak Restricted Greedy Algorithm.
+Additionally, we can employ the Weak Restricted Greedy Algorithm (here with $400$ steps).
 ```{r example2}
-model_WRGA <- qboost(X,Y, tau = tau, m_stop = n_steps, h = 0.2, kernel = "Gaussian", stepsize = 0.1)
+model_WRGA <- qboost(X,Y, tau = tau, m_stop = 400, h = 0.2, kernel = "Gaussian", stepsize = 0.1)
 ```
 
 Again, the loss looks is minimized
-```{r exampleloss2}
+```{r fig2}
 autoplot(model_WRGA, new_Y = Y, newdata = X)
 ```
 
 Of course, the loss is much more interesting on a test set.
-```{r}
+```{r fig3}
 n_test = 1000
 X_test = mvrnorm(n_test, rep(0, p), diag(p))
 epsilon_test = rt(n_test, 2)
@@ -70,12 +78,12 @@ autoplot(model_WRGA, new_Y = Y_test, newdata = X_test)
 ```
 To see this a crossvalidated version to obtain the right stopping criterion. At first for the orthogonal variant
 
-```{r}
+```{r fig4}
 cv_model_WCGA <- cv_qboost(X,Y, tau = tau, m_stop = n_steps, h = 0.2, kernel = "Gaussian", stepsize = NULL)
 autoplot(cv_model_WCGA, new_Y = Y_test, newdata = X_test)
 ```
-Next, repeat the same for the non-orthogonal algorithm (here with $400$ steps).
-```{r}
+Next, repeat the same for the non-orthogonal algorithm.
+```{r fig5}
 cv_model_WRGA <- cv_qboost(X,Y, tau = tau, m_stop = 400, h = 0.2, kernel = "Gaussian", stepsize = 0.1)
 autoplot(cv_model_WRGA, new_Y = Y_test, newdata = X_test)
 ```
@@ -98,9 +106,9 @@ df <- melt(data.frame("norm_WCGA" = c(apply(cv_model_WCGA$coeff_path,2,
         
 
 ggplot(df) +
-  geom_line(aes(x = step,y = value, color = variable), size = 1) + 
+  geom_line(aes(x = step,y = value, color = variable)) + 
   scale_colour_manual(values=c("red","blue")) +
-  geom_hline(yintercept = norm_conquer, color = "Forestgreen", size = 1) +
+  geom_hline(yintercept = norm_conquer, color = "Forestgreen") +
   geom_vline(xintercept = cv_model_WCGA$cv_m_stop, linetype = "dashed", color = "red") +
   geom_vline(xintercept = cv_model_WRGA$cv_m_stop, linetype = "dashed", color = "blue") +
   ylim(c(0,2.2)) +
@@ -110,4 +118,3 @@ ggplot(df) +
        colour = "Algorithm") +
   theme(legend.position = 'bottom')
 ```
-
