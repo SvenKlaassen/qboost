@@ -1,5 +1,6 @@
 ---
 title: "qboost - Quantile Boosting"
+date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{qboost}
