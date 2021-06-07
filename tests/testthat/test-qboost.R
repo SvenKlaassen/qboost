@@ -111,3 +111,23 @@ patrick::with_parameters_test_that("Unit tests for the nonsmooth Variant",
 )
 
 
+testthat::test_that("WRGA Degenerate", {
+  n <- 10;p <- 2
+  X <- matrix(rep(1,2*n),ncol = 2)
+  steps <- 10
+  X <- matrix(runif(n*p,0,1),nrow = n,ncol = p)
+  Y <- rep(2,n)
+
+  model <- qboost(X,
+                  Y,
+                  tau = 0.5,
+                  m_stop = steps,
+                  stepsize = 0.1,
+                  h = 0.1,
+                  kernel = "Gaussian")
+  testthat::expect_length(model$selection_path, steps)
+  testthat::expect_equal(dim(model$coeff_path),c(p+1,steps+1))
+})
+
+
+
