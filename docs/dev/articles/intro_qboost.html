@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Introduction to Quantile Boosting • qboost</title>
-<!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script><!-- Bootstrap --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous">
+<!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script><!-- Bootstrap --><link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.4.0/paper/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script><!-- bootstrap-toc --><link rel="stylesheet" href="../bootstrap-toc.css">
 <script src="../bootstrap-toc.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
@@ -20,8 +20,6 @@
 <![endif]-->
 </head>
 <body data-spy="scroll" data-target="#toc">
-    
-
     <div class="container template-article">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -40,6 +38,12 @@
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
+<li>
+  <a href="../index.html">
+    <span class="fas fa-home fa-lg"></span>
+     
+  </a>
+</li>
 <li>
   <a href="../articles/getstarted.html">
     <span class="fas fa-solid fa-rocket"></span>
@@ -74,7 +78,7 @@
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
-  <a href="https://github.com/SvenKlaassen/qboost/" class="external-link">
+  <a href="https://github.com/SvenKlaassen/qboost/">
     <span class="fab fa-github fa-lg"></span>
      
   </a>
@@ -89,13 +93,13 @@
 
       
 
-      </header><script src="intro_qboost_files/header-attrs-2.8/header-attrs.js"></script><div class="row">
+      </header><script src="intro_qboost_files/header-attrs-2.7/header-attrs.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Introduction to Quantile Boosting</h1>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/SvenKlaassen/qboost/blob/master/vignettes/intro_qboost.Rmd" class="external-link"><code>vignettes/intro_qboost.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/SvenKlaassen/qboost/blob/master/vignettes/intro_qboost.Rmd"><code>vignettes/intro_qboost.Rmd</code></a></small>
       <div class="hidden name"><code>intro_qboost.Rmd</code></div>
 
     </div>
@@ -104,53 +108,53 @@
     
 <p>High-dimensional quantile regression using boosting. This repository is the official implementation of …</p>
 <p><strong>TODO: Add Article from arXiv</strong></p>
-<p>Quantile Regression is a popular tool to model the conditional quantiles of a response variable. In a high-dimensional setting, the theoretical results are largely limited to a penalized quantile regression model (<a href="https://projecteuclid.org/journals/annals-of-statistics/volume-39/issue-1/%e2%84%931-penalized-quantile-regression-in-high-dimensional-sparse-models/10.1214/10-AOS827.full" class="external-link">Belloni and Chernozhukov, 2011</a>).<br> Instead, we employ a greedy procedure to gradually improve the regression function. To overcome the non-differentiability of the check loss funciton, we employ the convolution-type smoothed quantile regression (<a href="https://www.tandfonline.com/doi/abs/10.1080/07350015.2019.1660177?journalCode=ubes20" class="external-link">Fernandes, Guerre and Horta, 2019</a> and <a href="https://arxiv.org/abs/2012.05187" class="external-link">He, Pan, Tan, Zhou</a>).</p>
+<p>Quantile Regression is a popular tool to model the conditional quantiles of a response variable. In a high-dimensional setting, the theoretical results are largely limited to a penalized quantile regression model (<a href="https://projecteuclid.org/journals/annals-of-statistics/volume-39/issue-1/%e2%84%931-penalized-quantile-regression-in-high-dimensional-sparse-models/10.1214/10-AOS827.full">Belloni and Chernozhukov, 2011</a>).<br> Instead, we employ a greedy procedure to gradually improve the regression function. To overcome the non-differentiability of the check loss funciton, we employ the convolution-type smoothed quantile regression (<a href="https://www.tandfonline.com/doi/abs/10.1080/07350015.2019.1660177?journalCode=ubes20">Fernandes, Guerre and Horta, 2019</a> and <a href="https://arxiv.org/abs/2012.05187">He, Pan, Tan, Zhou</a>).</p>
 <div id="installation-qboost" class="section level2">
 <h2 class="hasAnchor">
-<a href="#installation-qboost" class="anchor" aria-hidden="true"></a>Installation qboost</h2>
-<p>To install development version from <a href="https://github.com/" class="external-link">GitHub</a>, run the following commands:</p>
+<a href="#installation-qboost" class="anchor"></a>Installation qboost</h2>
+<p>To install development version from <a href="https://github.com/">GitHub</a>, run the following commands:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># install.packages("devtools")</span>
-<span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"SvenKlaassen/qboost"</span><span class="op">)</span></code></pre></div>
+<span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html">install_github</a></span><span class="op">(</span><span class="st">"SvenKlaassen/qboost"</span><span class="op">)</span></code></pre></div>
 </div>
 <div id="introduction-to-quantile-regression" class="section level2">
 <h2 class="hasAnchor">
-<a href="#introduction-to-quantile-regression" class="anchor" aria-hidden="true"></a>Introduction to Quantile Regression</h2>
-<p>In quantile regression the conditional <span class="math inline">\(\tau\)</span>-quantile of some response variable <span class="math inline">\(Y\)</span> is fitted. Here, we assume the conditional quantile <span class="math display">\[F_{Y|X}^{-1}(\tau|x)=x^T\beta_\tau\]</span> to be a linear function of the covariates. It can be shown <span class="math display">\[\beta_\tau = \arg\min_{\beta\in\mathbb{R}^p}\mathbb{E}[\rho_\tau(Y - X^T\beta)],\]</span> where <span class="math display">\[\rho_\tau(x) = (\tau - I_{\{x\le 0\}})x\]</span> is the check function (<a href="https://en.wikipedia.org/wiki/Quantile_regression" class="external-link">Quantile Regression</a>).</p>
+<a href="#introduction-to-quantile-regression" class="anchor"></a>Introduction to Quantile Regression</h2>
+<p>In quantile regression the conditional <span class="math inline">\(\tau\)</span>-quantile of some response variable <span class="math inline">\(Y\)</span> is fitted. Here, we assume the conditional quantile <span class="math display">\[F_{Y|X}^{-1}(\tau|x)=x^T\beta_\tau\]</span> to be a linear function of the covariates. It can be shown <span class="math display">\[\beta_\tau = \arg\min_{\beta\in\mathbb{R}^p}\mathbb{E}[\rho_\tau(Y - X^T\beta)],\]</span> where <span class="math display">\[\rho_\tau(x) = (\tau - I_{\{x\le 0\}})x\]</span> is the check function (<a href="https://en.wikipedia.org/wiki/Quantile_regression">Quantile Regression</a>).</p>
 <p><img src="intro_qboost_files/figure-html/fig_loss-1.png" width="80%" style="display: block; margin: auto;"> Since the loss function is nondifferentiable at zero, the theoretical results rely on a smoothed version of the loss, based on a kernel density estimator. In the plot you can see different examples using different kernels (all with bandwidth <span class="math inline">\(h = 0.1\)</span>). <img src="intro_qboost_files/figure-html/fig_smoothed_loss-1.png" width="80%" style="display: block; margin: auto;"> The quantile boosting algorithm applies greedy algorithms to minimize the corresponding loss functions.</p>
 </div>
 <div id="quantile-boosting-example" class="section level2">
 <h2 class="hasAnchor">
-<a href="#quantile-boosting-example" class="anchor" aria-hidden="true"></a>Quantile Boosting: Example</h2>
+<a href="#quantile-boosting-example" class="anchor"></a>Quantile Boosting: Example</h2>
 <p>We generate data from a basic linear model <span class="math display">\[ Y = \beta_0 + X^T\beta +\epsilon,\]</span> where <span class="math inline">\(\beta_0=1\)</span> and <span class="math inline">\(\epsilon\sim t_2\)</span>. To account for a high-dimensional setting, we only generate <span class="math inline">\(n = 200\)</span> observations, whereas the covariates <span class="math inline">\(X\)</span> are generated from a standard multivariate gaussian distribution of dimension <span class="math inline">\(p = 500\)</span>. The coefficient vector is set to <span class="math display">\[ \beta_j = \begin{cases} 1,\quad j = 1,\dots s\\
 0,\quad j = s+1,\dots,p\end{cases},\]</span> such that the first <span class="math inline">\(s\)</span> components are relevant.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="http://www.stats.ox.ac.uk/pub/MASS4/" class="external-link">MASS</a></span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">42</span><span class="op">)</span>
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://www.stats.ox.ac.uk/pub/MASS4/">MASS</a></span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">42</span><span class="op">)</span>
 <span class="va">n</span> <span class="op">&lt;-</span> <span class="fl">200</span>; <span class="va">p</span> <span class="op">&lt;-</span> <span class="fl">500</span>; <span class="va">s</span> <span class="op">&lt;-</span> <span class="fl">4</span>
-<span class="va">beta</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">0</span><span class="op">)</span>,<span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">s</span><span class="op">+</span><span class="fl">1</span>,<span class="va">p</span><span class="op">-</span><span class="va">s</span><span class="op">)</span><span class="op">)</span>
+<span class="va">beta</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">0</span><span class="op">)</span>,<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">s</span><span class="op">+</span><span class="fl">1</span>,<span class="va">p</span><span class="op">-</span><span class="va">s</span><span class="op">)</span><span class="op">)</span>
 
-<span class="va">X</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/MASS/man/mvrnorm.html" class="external-link">mvrnorm</a></span><span class="op">(</span><span class="va">n</span>, <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">0</span>, <span class="va">p</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/diag.html" class="external-link">diag</a></span><span class="op">(</span><span class="va">p</span><span class="op">)</span><span class="op">)</span>
-<span class="va">epsilon</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/TDist.html" class="external-link">rt</a></span><span class="op">(</span><span class="va">n</span>, <span class="fl">2</span><span class="op">)</span>
-<span class="va">Y</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">cbind</a></span><span class="op">(</span><span class="fl">1</span>, <span class="va">X</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/r/base/matmult.html" class="external-link">%*%</a></span> <span class="va">beta</span> <span class="op">+</span> <span class="va">epsilon</span>
+<span class="va">X</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/MASS/man/mvrnorm.html">mvrnorm</a></span><span class="op">(</span><span class="va">n</span>, <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="fl">0</span>, <span class="va">p</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/diag.html">diag</a></span><span class="op">(</span><span class="va">p</span><span class="op">)</span><span class="op">)</span>
+<span class="va">epsilon</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/TDist.html">rt</a></span><span class="op">(</span><span class="va">n</span>, <span class="fl">2</span><span class="op">)</span>
+<span class="va">Y</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html">cbind</a></span><span class="op">(</span><span class="fl">1</span>, <span class="va">X</span><span class="op">)</span> <span class="op">%*%</span> <span class="va">beta</span> <span class="op">+</span> <span class="va">epsilon</span>
 
 <span class="va">n_test</span> <span class="op">&lt;-</span> <span class="fl">1000</span>
-<span class="va">X_test</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/MASS/man/mvrnorm.html" class="external-link">mvrnorm</a></span><span class="op">(</span><span class="va">n_test</span>, <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">0</span>, <span class="va">p</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/diag.html" class="external-link">diag</a></span><span class="op">(</span><span class="va">p</span><span class="op">)</span><span class="op">)</span>
-<span class="va">epsilon_test</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/TDist.html" class="external-link">rt</a></span><span class="op">(</span><span class="va">n_test</span>, <span class="fl">2</span><span class="op">)</span>
-<span class="va">Y_test</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">cbind</a></span><span class="op">(</span><span class="fl">1</span>, <span class="va">X_test</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/r/base/matmult.html" class="external-link">%*%</a></span> <span class="va">beta</span> <span class="op">+</span> <span class="va">epsilon_test</span></code></pre></div>
+<span class="va">X_test</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/MASS/man/mvrnorm.html">mvrnorm</a></span><span class="op">(</span><span class="va">n_test</span>, <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="fl">0</span>, <span class="va">p</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/diag.html">diag</a></span><span class="op">(</span><span class="va">p</span><span class="op">)</span><span class="op">)</span>
+<span class="va">epsilon_test</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/TDist.html">rt</a></span><span class="op">(</span><span class="va">n_test</span>, <span class="fl">2</span><span class="op">)</span>
+<span class="va">Y_test</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html">cbind</a></span><span class="op">(</span><span class="fl">1</span>, <span class="va">X_test</span><span class="op">)</span> <span class="op">%*%</span> <span class="va">beta</span> <span class="op">+</span> <span class="va">epsilon_test</span></code></pre></div>
 <div id="orthogonal-quantile-boosting-weak-chebyshev-greedy-algorithm-wcga" class="section level3">
 <h3 class="hasAnchor">
-<a href="#orthogonal-quantile-boosting-weak-chebyshev-greedy-algorithm-wcga" class="anchor" aria-hidden="true"></a>Orthogonal Quantile Boosting/ Weak Chebyshev Greedy Algorithm (WCGA)</h3>
+<a href="#orthogonal-quantile-boosting-weak-chebyshev-greedy-algorithm-wcga" class="anchor"></a>Orthogonal Quantile Boosting/ Weak Chebyshev Greedy Algorithm (WCGA)</h3>
 <p>We start with the orthogonal variant of the qboost algorithm (WCGA, by setting <code>stepsize = NULL</code>) and proceed for <span class="math inline">\(100\)</span> greedy selection steps.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/SvenKlaassen/qboost" class="external-link">qboost</a></span><span class="op">)</span>
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/SvenKlaassen/qboost">qboost</a></span><span class="op">)</span>
 <span class="va">n_steps</span> <span class="op">&lt;-</span> <span class="fl">100</span>; <span class="va">tau</span> <span class="op">&lt;-</span> <span class="fl">.5</span>
 <span class="va">model_WCGA</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/qboost.html">qboost</a></span><span class="op">(</span><span class="va">X</span>,<span class="va">Y</span>, tau <span class="op">=</span> <span class="va">tau</span>, m_stop <span class="op">=</span> <span class="va">n_steps</span>, h <span class="op">=</span> <span class="fl">0.2</span>, kernel <span class="op">=</span> <span class="st">"Gaussian"</span>, stepsize <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span>
 <span class="co"># selected covariates</span>
-<span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">model_WCGA</span><span class="op">$</span><span class="va">selection_path</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">10</span><span class="op">]</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">model_WCGA</span><span class="op">$</span><span class="va">selection_path</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">10</span><span class="op">]</span><span class="op">)</span>
 <span class="co">#&gt;  [1]   3   1   2   4 410 343 451 261 433 422</span>
 <span class="co"># predict values</span>
-<span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict</a></span><span class="op">(</span><span class="va">model_WCGA</span>, newdata <span class="op">=</span> <span class="va">X_test</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/predict.html">predict</a></span><span class="op">(</span><span class="va">model_WCGA</span>, newdata <span class="op">=</span> <span class="va">X_test</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>
 <span class="co">#&gt; 6 x 1 Matrix of class "dgeMatrix"</span>
 <span class="co">#&gt;        Step_100</span>
 <span class="co">#&gt; [1,] -1.7598498</span>
@@ -161,82 +165,82 @@
 <span class="co">#&gt; [6,]  3.3768875</span></code></pre></div>
 <p>At first let us take a look at the Loss</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span>
-<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/autoplot.html" class="external-link">autoplot</a></span><span class="op">(</span><span class="va">model_WCGA</span>, new_Y <span class="op">=</span> <span class="va">Y</span>, newdata <span class="op">=</span> <span class="va">X</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org">ggplot2</a></span><span class="op">)</span>
+<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/autoplot.html">autoplot</a></span><span class="op">(</span><span class="va">model_WCGA</span>, new_Y <span class="op">=</span> <span class="va">Y</span>, newdata <span class="op">=</span> <span class="va">X</span><span class="op">)</span></code></pre></div>
 <p><img src="intro_qboost_files/figure-html/fig1-1.png" width="80%" style="display: block; margin: auto;"></p>
 <p>Of course, the loss is much more interesting on a test set.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/autoplot.html" class="external-link">autoplot</a></span><span class="op">(</span><span class="va">model_WCGA</span>, new_Y <span class="op">=</span> <span class="va">Y_test</span>, newdata <span class="op">=</span> <span class="va">X_test</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/autoplot.html">autoplot</a></span><span class="op">(</span><span class="va">model_WCGA</span>, new_Y <span class="op">=</span> <span class="va">Y_test</span>, newdata <span class="op">=</span> <span class="va">X_test</span><span class="op">)</span></code></pre></div>
 <p><img src="intro_qboost_files/figure-html/fig2-1.png" width="80%" style="display: block; margin: auto;"></p>
 </div>
 <div id="quantile-boosting-weak-greedy-algorithm-wga-shortened" class="section level3">
 <h3 class="hasAnchor">
-<a href="#quantile-boosting-weak-greedy-algorithm-wga-shortened" class="anchor" aria-hidden="true"></a>Quantile Boosting / Weak Greedy Algorithm (WGA, shortened)</h3>
+<a href="#quantile-boosting-weak-greedy-algorithm-wga-shortened" class="anchor"></a>Quantile Boosting / Weak Greedy Algorithm (WGA, shortened)</h3>
 <p>Additionally, we can employ the Weak Greedy Algorithm (here with <span class="math inline">\(400\)</span> steps).</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">model_WRGA</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/qboost.html">qboost</a></span><span class="op">(</span><span class="va">X</span>,<span class="va">Y</span>, tau <span class="op">=</span> <span class="va">tau</span>, m_stop <span class="op">=</span> <span class="fl">400</span>, h <span class="op">=</span> <span class="fl">0.2</span>, kernel <span class="op">=</span> <span class="st">"Gaussian"</span>, stepsize <span class="op">=</span> <span class="fl">0.1</span><span class="op">)</span></code></pre></div>
 <p>Again, the loss is minimized</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/autoplot.html" class="external-link">autoplot</a></span><span class="op">(</span><span class="va">model_WRGA</span>, new_Y <span class="op">=</span> <span class="va">Y</span>, newdata <span class="op">=</span> <span class="va">X</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/autoplot.html">autoplot</a></span><span class="op">(</span><span class="va">model_WRGA</span>, new_Y <span class="op">=</span> <span class="va">Y</span>, newdata <span class="op">=</span> <span class="va">X</span><span class="op">)</span></code></pre></div>
 <p><img src="intro_qboost_files/figure-html/fig3-1.png" width="80%" style="display: block; margin: auto;"></p>
 <p>but we have to find the right stopping criterion to minimize the out of sample loss.</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/autoplot.html" class="external-link">autoplot</a></span><span class="op">(</span><span class="va">model_WRGA</span>, new_Y <span class="op">=</span> <span class="va">Y_test</span>, newdata <span class="op">=</span> <span class="va">X_test</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/autoplot.html">autoplot</a></span><span class="op">(</span><span class="va">model_WRGA</span>, new_Y <span class="op">=</span> <span class="va">Y_test</span>, newdata <span class="op">=</span> <span class="va">X_test</span><span class="op">)</span></code></pre></div>
 <p><img src="intro_qboost_files/figure-html/fig4-1.png" width="80%" style="display: block; margin: auto;"></p>
 </div>
 <div id="crossvalidation" class="section level3">
 <h3 class="hasAnchor">
-<a href="#crossvalidation" class="anchor" aria-hidden="true"></a>Crossvalidation</h3>
+<a href="#crossvalidation" class="anchor"></a>Crossvalidation</h3>
 <p>To have a reasonable stopping criterion, a crossvalidated version of the algorithms is implemented. At first, lets take a look at the orthogonal variant</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">cv_model_WCGA</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/cv_qboost.html">cv_qboost</a></span><span class="op">(</span><span class="va">X</span>,<span class="va">Y</span>, tau <span class="op">=</span> <span class="va">tau</span>, m_stop <span class="op">=</span> <span class="va">n_steps</span>,
                            h <span class="op">=</span> <span class="fl">0.2</span>, kernel <span class="op">=</span> <span class="st">"Gaussian"</span>, stepsize <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span>
-<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/autoplot.html" class="external-link">autoplot</a></span><span class="op">(</span><span class="va">cv_model_WCGA</span>, new_Y <span class="op">=</span> <span class="va">Y_test</span>, newdata <span class="op">=</span> <span class="va">X_test</span><span class="op">)</span></code></pre></div>
+<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/autoplot.html">autoplot</a></span><span class="op">(</span><span class="va">cv_model_WCGA</span>, new_Y <span class="op">=</span> <span class="va">Y_test</span>, newdata <span class="op">=</span> <span class="va">X_test</span><span class="op">)</span></code></pre></div>
 <p><img src="intro_qboost_files/figure-html/fig5-1.png" width="80%" style="display: block; margin: auto;"></p>
 <p>Next, repeat the same for the non-orthogonal algorithm.</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">cv_model_WRGA</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/cv_qboost.html">cv_qboost</a></span><span class="op">(</span><span class="va">X</span>,<span class="va">Y</span>, tau <span class="op">=</span> <span class="va">tau</span>, m_stop <span class="op">=</span> <span class="fl">400</span>,
                            h <span class="op">=</span> <span class="fl">0.2</span>, kernel <span class="op">=</span> <span class="st">"Gaussian"</span>, stepsize <span class="op">=</span> <span class="fl">0.1</span><span class="op">)</span>
-<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/autoplot.html" class="external-link">autoplot</a></span><span class="op">(</span><span class="va">cv_model_WRGA</span>, new_Y <span class="op">=</span> <span class="va">Y_test</span>, newdata <span class="op">=</span> <span class="va">X_test</span><span class="op">)</span></code></pre></div>
+<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/autoplot.html">autoplot</a></span><span class="op">(</span><span class="va">cv_model_WRGA</span>, new_Y <span class="op">=</span> <span class="va">Y_test</span>, newdata <span class="op">=</span> <span class="va">X_test</span><span class="op">)</span></code></pre></div>
 <p><img src="intro_qboost_files/figure-html/fig6-1.png" width="80%" style="display: block; margin: auto;"></p>
 <p>To compare the performance to the oracle model (here in green), we apply the conquer algorithm to the first <span class="math inline">\(s\)</span> components of <span class="math inline">\(X\)</span> and report the norm of the coefficient vectors.</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/XiaoouPan/conquer" class="external-link">conquer</a></span><span class="op">)</span>
-<span class="va">fit.conquer</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/conquer/man/conquer.html" class="external-link">conquer</a></span><span class="op">(</span><span class="va">X</span><span class="op">[</span>,<span class="fl">1</span><span class="op">:</span><span class="va">s</span><span class="op">]</span>, <span class="va">Y</span>, tau <span class="op">=</span> <span class="va">tau</span>, h <span class="op">=</span> <span class="fl">0.2</span>, kernel <span class="op">=</span> <span class="st">"Gaussian"</span><span class="op">)</span>
-<span class="va">norm_conquer</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">sqrt</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="op">(</span><span class="va">fit.conquer</span><span class="op">$</span><span class="va">coeff</span><span class="op">-</span><span class="va">beta</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="op">(</span><span class="va">s</span><span class="op">+</span><span class="fl">1</span><span class="op">)</span><span class="op">]</span><span class="op">)</span><span class="op">^</span><span class="fl">2</span><span class="op">)</span><span class="op">)</span>
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/XiaoouPan/conquer">conquer</a></span><span class="op">)</span>
+<span class="va">fit.conquer</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/conquer/man/conquer.html">conquer</a></span><span class="op">(</span><span class="va">X</span><span class="op">[</span>,<span class="fl">1</span><span class="op">:</span><span class="va">s</span><span class="op">]</span>, <span class="va">Y</span>, tau <span class="op">=</span> <span class="va">tau</span>, h <span class="op">=</span> <span class="fl">0.2</span>, kernel <span class="op">=</span> <span class="st">"Gaussian"</span><span class="op">)</span>
+<span class="va">norm_conquer</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">sqrt</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="op">(</span><span class="va">fit.conquer</span><span class="op">$</span><span class="va">coeff</span><span class="op">-</span><span class="va">beta</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="op">(</span><span class="va">s</span><span class="op">+</span><span class="fl">1</span><span class="op">)</span><span class="op">]</span><span class="op">)</span><span class="op">^</span><span class="fl">2</span><span class="op">)</span><span class="op">)</span>
 
-<span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/hadley/reshape" class="external-link">reshape2</a></span><span class="op">)</span>
-<span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/reshape2/man/melt.html" class="external-link">melt</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span><span class="st">"norm_WCGA"</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/apply.html" class="external-link">apply</a></span><span class="op">(</span><span class="va">cv_model_WCGA</span><span class="op">$</span><span class="va">coeff_path</span>,<span class="fl">2</span>,
-                                       <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">sqrt</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="op">(</span><span class="va">x</span><span class="op">-</span><span class="va">beta</span><span class="op">)</span><span class="op">^</span><span class="fl">2</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>,<span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="cn">NA</span>,<span class="fl">400</span><span class="op">-</span><span class="va">n_steps</span><span class="op">)</span><span class="op">)</span>,
-                 <span class="st">"norm_WRGA"</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/apply.html" class="external-link">apply</a></span><span class="op">(</span><span class="va">cv_model_WRGA</span><span class="op">$</span><span class="va">coeff_path</span>,<span class="fl">2</span>,
-                                       <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">sqrt</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="op">(</span><span class="va">x</span><span class="op">-</span><span class="va">beta</span><span class="op">)</span><span class="op">^</span><span class="fl">2</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>,
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org">ggplot2</a></span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/hadley/reshape">reshape2</a></span><span class="op">)</span>
+<span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/reshape2/man/melt.html">melt</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span><span class="st">"norm_WCGA"</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/apply.html">apply</a></span><span class="op">(</span><span class="va">cv_model_WCGA</span><span class="op">$</span><span class="va">coeff_path</span>,<span class="fl">2</span>,
+                                       <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">sqrt</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="op">(</span><span class="va">x</span><span class="op">-</span><span class="va">beta</span><span class="op">)</span><span class="op">^</span><span class="fl">2</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>,<span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="cn">NA</span>,<span class="fl">400</span><span class="op">-</span><span class="va">n_steps</span><span class="op">)</span><span class="op">)</span>,
+                 <span class="st">"norm_WRGA"</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/apply.html">apply</a></span><span class="op">(</span><span class="va">cv_model_WRGA</span><span class="op">$</span><span class="va">coeff_path</span>,<span class="fl">2</span>,
+                                       <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">sqrt</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="op">(</span><span class="va">x</span><span class="op">-</span><span class="va">beta</span><span class="op">)</span><span class="op">^</span><span class="fl">2</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>,
                  <span class="st">"step"</span> <span class="op">=</span> <span class="fl">0</span><span class="op">:</span><span class="fl">400</span><span class="op">)</span>,
-            id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"step"</span><span class="op">)</span><span class="op">)</span>
+            id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"step"</span><span class="op">)</span><span class="op">)</span>
         
 
-<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">df</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html" class="external-link">geom_line</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">step</span>,y <span class="op">=</span> <span class="va">value</span>, color <span class="op">=</span> <span class="va">variable</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> 
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_manual.html" class="external-link">scale_colour_manual</a></span><span class="op">(</span>values<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"red"</span>,<span class="st">"blue"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_abline.html" class="external-link">geom_hline</a></span><span class="op">(</span>yintercept <span class="op">=</span> <span class="va">norm_conquer</span>, color <span class="op">=</span> <span class="st">"Forestgreen"</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_abline.html" class="external-link">geom_vline</a></span><span class="op">(</span>xintercept <span class="op">=</span> <span class="va">cv_model_WCGA</span><span class="op">$</span><span class="va">cv_m_stop</span>, linetype <span class="op">=</span> <span class="st">"dashed"</span>, color <span class="op">=</span> <span class="st">"red"</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_abline.html" class="external-link">geom_vline</a></span><span class="op">(</span>xintercept <span class="op">=</span> <span class="va">cv_model_WRGA</span><span class="op">$</span><span class="va">cv_m_stop</span>, linetype <span class="op">=</span> <span class="st">"dashed"</span>, color <span class="op">=</span> <span class="st">"blue"</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/lims.html" class="external-link">ylim</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">2.2</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Norm of the estimators with increasing stepsize"</span>,
+<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">df</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html">geom_line</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">step</span>,y <span class="op">=</span> <span class="va">value</span>, color <span class="op">=</span> <span class="va">variable</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> 
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_manual.html">scale_colour_manual</a></span><span class="op">(</span>values<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"red"</span>,<span class="st">"blue"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_abline.html">geom_hline</a></span><span class="op">(</span>yintercept <span class="op">=</span> <span class="va">norm_conquer</span>, color <span class="op">=</span> <span class="st">"Forestgreen"</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_abline.html">geom_vline</a></span><span class="op">(</span>xintercept <span class="op">=</span> <span class="va">cv_model_WCGA</span><span class="op">$</span><span class="va">cv_m_stop</span>, linetype <span class="op">=</span> <span class="st">"dashed"</span>, color <span class="op">=</span> <span class="st">"red"</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_abline.html">geom_vline</a></span><span class="op">(</span>xintercept <span class="op">=</span> <span class="va">cv_model_WRGA</span><span class="op">$</span><span class="va">cv_m_stop</span>, linetype <span class="op">=</span> <span class="st">"dashed"</span>, color <span class="op">=</span> <span class="st">"blue"</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/lims.html">ylim</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">2.2</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Norm of the estimators with increasing stepsize"</span>,
        x <span class="op">=</span> <span class="st">"Steps"</span>,
        y <span class="op">=</span> <span class="st">"Norm"</span>,
        colour <span class="op">=</span> <span class="st">"Algorithm"</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></span><span class="op">(</span>legend.position <span class="op">=</span> <span class="st">'bottom'</span><span class="op">)</span></code></pre></div>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span><span class="op">(</span>legend.position <span class="op">=</span> <span class="st">'bottom'</span><span class="op">)</span></code></pre></div>
 <p><img src="intro_qboost_files/figure-html/exampleplot-1.png" width="80%" style="display: block; margin: auto;"></p>
 </div>
 </div>
 <div id="references" class="section level2">
 <h2 class="hasAnchor">
-<a href="#references" class="anchor" aria-hidden="true"></a>References</h2>
+<a href="#references" class="anchor"></a>References</h2>
 <ul>
-<li><p>He, Xuming, et al. “Smoothed quantile regression with large-scale inference.” arXiv preprint arXiv:2012.05187 (2020). <a href="https://arxiv.org/abs/2012.05187" class="external-link">Paper</a></p></li>
-<li><p>Belloni, Alexandre, and Victor Chernozhukov. “ℓ1-penalized quantile regression in high-dimensional sparse models.” The Annals of Statistics 39.1 (2011): 82-130. <a href="https://projecteuclid.org/journals/annals-of-statistics/volume-39/issue-1/%e2%84%931-penalized-quantile-regression-in-high-dimensional-sparse-models/10.1214/10-AOS827.full" class="external-link">Paper</a></p></li>
-<li><p>Fernandes, Marcelo, Emmanuel Guerre, and Eduardo Horta. “Smoothing quantile regressions.” Journal of Business &amp; Economic Statistics 39.1 (2021): 338-357. <a href="https://www.tandfonline.com/doi/full/10.1080/07350015.2019.1660177?casa_token=bkJ73Q8oXYIAAAAA%3A0g8P9Bb5elGlCBU8_bsuN_oLauFgMfQcojZmI4ERJO1WVD1M5UOw1RLRix7mMxDMMWukfZR-sbE" class="external-link">Paper</a></p></li>
+<li><p>He, Xuming, et al. “Smoothed quantile regression with large-scale inference.” arXiv preprint arXiv:2012.05187 (2020). <a href="https://arxiv.org/abs/2012.05187">Paper</a></p></li>
+<li><p>Belloni, Alexandre, and Victor Chernozhukov. “ℓ1-penalized quantile regression in high-dimensional sparse models.” The Annals of Statistics 39.1 (2011): 82-130. <a href="https://projecteuclid.org/journals/annals-of-statistics/volume-39/issue-1/%e2%84%931-penalized-quantile-regression-in-high-dimensional-sparse-models/10.1214/10-AOS827.full">Paper</a></p></li>
+<li><p>Fernandes, Marcelo, Emmanuel Guerre, and Eduardo Horta. “Smoothing quantile regressions.” Journal of Business &amp; Economic Statistics 39.1 (2021): 338-357. <a href="https://www.tandfonline.com/doi/full/10.1080/07350015.2019.1660177?casa_token=bkJ73Q8oXYIAAAAA%3A0g8P9Bb5elGlCBU8_bsuN_oLauFgMfQcojZmI4ERJO1WVD1M5UOw1RLRix7mMxDMMWukfZR-sbE">Paper</a></p></li>
 </ul>
 </div>
   </div>
@@ -252,13 +256,11 @@
 
 
       <footer><div class="copyright">
-  <p></p>
-<p>Developed by Sven Klaassen.</p>
+  <p>Developed by Sven Klaassen.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link external-link">pkgdown</a> 1.6.1.9001.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>
@@ -266,8 +268,6 @@
 
   
 
-
-  
 
   </body>
 </html>

@@ -8,7 +8,10 @@ home:
 
 template:
   params:
-    bootswatch: cerulean
+    bootswatch: paper
+
+development:
+  mode: devel
 
 toc:
   depth: 3
