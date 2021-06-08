@@ -4,7 +4,7 @@
 #' Applying a greedy algorithm to minimize the expected smoothed check loss.
 #' Employs the Weak Restricted Greedy Algorithm. For the orthogonal variant, set `stepsize` to `NULL`.
 #'
-#' @param X (`matrix`) \cr
+#' @param X (`matrix()`) \cr
 #' A matrix of covariates.
 #' @param Y (`numeric()`) \cr
 #' A vector of responses.

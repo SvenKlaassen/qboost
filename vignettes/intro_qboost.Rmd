@@ -1,0 +1,211 @@
+---
+title: "Introduction to Quantile Boosting"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{intro_qboost}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+
+knitr::opts_chunk$set(
+ fig.width = 6,
+ fig.asp = 0.8,
+ out.width = "80%",
+ fig.align = "center"
+)
+```
+
+High-dimensional quantile regression using boosting. This repository is the official implementation of ...
+
+**TODO: Add Article from arXiv**
+
+Quantile Regression is a popular tool to model the conditional quantiles of a response variable. In a high-dimensional setting, the theoretical results are largely limited to a penalized quantile regression model ([Belloni and Chernozhukov, 2011](https://projecteuclid.org/journals/annals-of-statistics/volume-39/issue-1/%e2%84%931-penalized-quantile-regression-in-high-dimensional-sparse-models/10.1214/10-AOS827.full)).<br />
+Instead, we employ a greedy procedure to gradually improve the regression function. To overcome the non-differentiability of the check loss funciton, we employ the convolution-type smoothed quantile regression ([Fernandes, Guerre and Horta, 2019](https://www.tandfonline.com/doi/abs/10.1080/07350015.2019.1660177?journalCode=ubes20) and [He, Pan, Tan, Zhou](https://arxiv.org/abs/2012.05187)). 
+
+## Installation qboost
+
+To install development version from [GitHub](https://github.com/), run the following commands:
+
+``` r
+# install.packages("devtools")
+remotes::install_github("SvenKlaassen/qboost")
+```
+
+## Introduction to Quantile Regression
+
+In quantile regression the conditional $\tau$-quantile of some response variable $Y$ is fitted. Here, we assume the conditional quantile 
+$$F_{Y|X}^{-1}(\tau|x)=x^T\beta_\tau$$
+to be a linear function of the covariates. It can be shown
+$$\beta_\tau = \arg\min_{\beta\in\mathbb{R}^p}\mathbb{E}[\rho_\tau(Y - X^T\beta)],$$
+where 
+$$\rho_\tau(x) = (\tau - I_{\{x\le 0\}})x$$
+is the check function ([Quantile Regression](https://en.wikipedia.org/wiki/Quantile_regression)).
+
+```{r fig loss, echo=FALSE}
+library(qboost)
+library(ggplot2)
+x <- seq(-1,1,0.01)
+tau_vec <- c(0.25,0.5,0.75)
+loss <- lapply(tau_vec, function(tau) (tau - (x <= 0))*x)
+df <- data.frame("Loss" = unlist(loss),
+                 "Quantile" = rep(c("0.25","0.5","0.75"),each = length(x)),
+                 "x" = rep(x,3))
+
+ggplot(data = df, aes(x = x, y = Loss, color = Quantile)) + 
+  geom_line()
+```
+Since the loss function is nondifferentiable at zero, the theoretical results rely on a smoothed version of the loss, based on a kernel density estimator. In the plot you can see different examples using different kernels (all with bandwidth $h = 0.1$).
+```{r fig smoothed loss, echo=FALSE}
+h <- 0.1
+loss_gaussian <- lapply(tau_vec, function(tau){
+  l = (2/pi)^(1/2)*exp(-(x/h)^2/2)+(x/h)*(1-2*stats::pnorm(-(x/h)))
+  (h/2)*l+(tau-0.5)*x
+  }
+)
+loss_uniform <- lapply(tau_vec, function(tau){
+  l = ifelse(abs(x/h)<= 1,((x/h)^2/2+0.5),abs(x/h))
+  (h/2)*l+(tau-0.5)*x
+  }
+)
+
+
+df <- data.frame("Loss" = c(unlist(loss_gaussian),unlist(loss_uniform)),
+                 "Quantile" = rep(rep(c("0.25","0.5","0.75"),each = length(x)),2),
+                 "x" = rep(x,6),
+                 "Kernel" = rep(c("Gaussian", "Uniform"), each = 3*length(x)))
+
+ggplot(data = df, aes(x = x, y = Loss, color = Quantile)) + 
+  geom_line() + 
+  facet_wrap(. ~ Kernel)
+```
+The quantile boosting algorithm applies greedy algorithms to minimize the corresponding loss functions. 
+
+## Quantile Boosting: Example
+We generate data from a basic linear model 
+$$ Y = \beta_0 + X^T\beta +\epsilon,$$
+where $\beta_0=1$ and $\epsilon\sim t_2$. To account for a high-dimensional setting, we only generate $n = 200$ observations, whereas the covariates $X$ are generated from a standard multivariate gaussian distribution of dimension $p = 500$. The coefficient vector is set to 
+$$ \beta_j = \begin{cases} 1,\quad j = 1,\dots s\\
+0,\quad j = s+1,\dots,p\end{cases},$$
+such that the first $s$ components are relevant. 
+
+```{r dgp}
+library(MASS)
+set.seed(42)
+n <- 200; p <- 500; s <- 4
+beta <- rep(c(1,0),c(s+1,p-s))
+
+X = mvrnorm(n, rep(0, p), diag(p))
+epsilon = rt(n, 2)
+Y = cbind(1, X) %*% beta + epsilon
+
+n_test <- 1000
+X_test = mvrnorm(n_test, rep(0, p), diag(p))
+epsilon_test = rt(n_test, 2)
+Y_test = cbind(1, X_test) %*% beta + epsilon_test
+```
+
+### Orthogonal Quantile Boosting/ Weak Chebyshev Greedy Algorithm (WCGA)
+
+We start with the orthogonal variant of the qboost algorithm (WCGA, by setting `stepsize = NULL`) and proceed for $100$ greedy selection steps.
+
+```{r example}
+library(qboost)
+n_steps <- 100; tau <- .5
+model_WCGA <- qboost(X,Y, tau = tau, m_stop = n_steps, h = 0.2, kernel = "Gaussian", stepsize = NULL)
+# selected covariates
+print(model_WCGA$selection_path[1:10])
+# predict values
+print(head(predict(model_WCGA, newdata = X_test)))
+```
+
+At first let us take a look at the Loss
+```{r fig1}
+library(ggplot2)
+autoplot(model_WCGA, new_Y = Y, newdata = X)
+```
+
+Of course, the loss is much more interesting on a test set.
+```{r fig2}
+autoplot(model_WCGA, new_Y = Y_test, newdata = X_test)
+```
+
+### Quantile Boosting / Weak Greedy Algorithm (WGA, shortened)
+
+Additionally, we can employ the Weak Greedy Algorithm (here with $400$ steps).
+```{r example2}
+model_WRGA <- qboost(X,Y, tau = tau, m_stop = 400, h = 0.2, kernel = "Gaussian", stepsize = 0.1)
+```
+
+Again, the loss is minimized
+```{r fig3}
+autoplot(model_WRGA, new_Y = Y, newdata = X)
+```
+
+but we have to find the right stopping criterion to minimize the out of sample loss.
+```{r fig4}
+autoplot(model_WRGA, new_Y = Y_test, newdata = X_test)
+```
+
+### Crossvalidation
+
+To have a reasonable stopping criterion, a crossvalidated version of the algorithms is implemented. At first, lets take a look at the orthogonal variant
+
+```{r fig5}
+cv_model_WCGA <- cv_qboost(X,Y, tau = tau, m_stop = n_steps,
+                           h = 0.2, kernel = "Gaussian", stepsize = NULL)
+autoplot(cv_model_WCGA, new_Y = Y_test, newdata = X_test)
+```
+
+Next, repeat the same for the non-orthogonal algorithm.
+```{r fig6}
+cv_model_WRGA <- cv_qboost(X,Y, tau = tau, m_stop = 400,
+                           h = 0.2, kernel = "Gaussian", stepsize = 0.1)
+autoplot(cv_model_WRGA, new_Y = Y_test, newdata = X_test)
+```
+
+To compare the performance to the oracle model (here in green), we apply the conquer algorithm to the first $s$ components of $X$ and report the norm of the coefficient vectors.
+
+```{r exampleplot, warning=FALSE}
+library(conquer)
+fit.conquer <- conquer(X[,1:s], Y, tau = tau, h = 0.2, kernel = "Gaussian")
+norm_conquer <- sqrt(sum((fit.conquer$coeff-beta[1:(s+1)])^2))
+
+library(ggplot2)
+library(reshape2)
+df <- melt(data.frame("norm_WCGA" = c(apply(cv_model_WCGA$coeff_path,2,
+                                       function(x) sqrt(sum((x-beta)^2))),rep(NA,400-n_steps)),
+                 "norm_WRGA" = apply(cv_model_WRGA$coeff_path,2,
+                                       function(x) sqrt(sum((x-beta)^2))),
+                 "step" = 0:400),
+            id = c("step"))
+        
+
+ggplot(df) +
+  geom_line(aes(x = step,y = value, color = variable)) + 
+  scale_colour_manual(values=c("red","blue")) +
+  geom_hline(yintercept = norm_conquer, color = "Forestgreen") +
+  geom_vline(xintercept = cv_model_WCGA$cv_m_stop, linetype = "dashed", color = "red") +
+  geom_vline(xintercept = cv_model_WRGA$cv_m_stop, linetype = "dashed", color = "blue") +
+  ylim(c(0,2.2)) +
+  labs(title = "Norm of the estimators with increasing stepsize",
+       x = "Steps",
+       y = "Norm",
+       colour = "Algorithm") +
+  theme(legend.position = 'bottom')
+```
+
+
+
+## References
+* He, Xuming, et al. "Smoothed quantile regression with large-scale inference." arXiv preprint arXiv:2012.05187 (2020). [Paper](https://arxiv.org/abs/2012.05187)
+
+* Belloni, Alexandre, and Victor Chernozhukov. "ℓ1-penalized quantile regression in high-dimensional sparse models." The Annals of Statistics 39.1 (2011): 82-130. [Paper](https://projecteuclid.org/journals/annals-of-statistics/volume-39/issue-1/%e2%84%931-penalized-quantile-regression-in-high-dimensional-sparse-models/10.1214/10-AOS827.full)
+
+* Fernandes, Marcelo, Emmanuel Guerre, and Eduardo Horta. "Smoothing quantile regressions." Journal of Business & Economic Statistics 39.1 (2021): 338-357. [Paper](https://www.tandfonline.com/doi/full/10.1080/07350015.2019.1660177?casa_token=bkJ73Q8oXYIAAAAA%3A0g8P9Bb5elGlCBU8_bsuN_oLauFgMfQcojZmI4ERJO1WVD1M5UOw1RLRix7mMxDMMWukfZR-sbE)
+

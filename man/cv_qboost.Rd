@@ -16,7 +16,7 @@ cv_qboost(
 )
 }
 \arguments{
-\item{X}{(\code{matrix}) \cr
+\item{X}{(\code{matrix()}) \cr
 A matrix of covariates.}
 
 \item{Y}{(\code{numeric()}) \cr

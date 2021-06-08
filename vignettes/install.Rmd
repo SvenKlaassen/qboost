@@ -1,0 +1,22 @@
+---
+title: "Installing qboost"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{install}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+To install development version from [GitHub](https://github.com/), run the following commands:
+
+``` r
+# install.packages("devtools")
+remotes::install_github("SvenKlaassen/qboost")
+```
