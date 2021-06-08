@@ -1,0 +1,51 @@
+destination: docs
+
+home:
+  title: qboost - Quantile Boosting
+  links:
+  - text: Download
+    href: https://github.com/SvenKlaassen/qboost/
+
+development:
+  mode: devel
+
+toc:
+  depth: 3
+
+navbar:
+  structure:
+    left:  [home, getstarted, reference, articles]
+    right: [github]
+  components:
+    getstarted:
+      text: Get started
+      icon: fa-solid fa-rocket
+      href: articles/getstarted.html
+    reference:
+      text: Reference
+      icon: fa-file-alt
+      href: reference/index.html
+    articles:
+      text: Articles
+      icon: fa-solid fa-book
+      menu:
+        - text: Installing qboost
+          href: articles/install.html
+        - text: Introduction to Quantile Boosting
+          href: articles/intro_qboost.html
+
+reference:
+  - title: Boosting models
+    contents:
+      - qboost
+      - cv_qboost
+  - title: Methods
+    contents:
+      - predict.qboost
+      - coef.qboost
+      - autoplot.qboost
+  - title: Loss functions and Update Steps
+    contents:
+      - smooth_check_loss
+      - grad_smooth_check_loss
+      - update_selection_step
