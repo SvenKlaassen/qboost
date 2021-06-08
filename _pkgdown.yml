@@ -8,7 +8,7 @@ home:
 
 template:
   params:
-    bootswatch: paper
+    bootswatch: journal
 
 development:
   mode: devel
