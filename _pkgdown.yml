@@ -7,7 +7,7 @@ home:
     href: https://github.com/SvenKlaassen/qboost/
 template:
   params:
-    bootswatch: paper
+    bootswatch: journal
 
 development:
   mode: devel
