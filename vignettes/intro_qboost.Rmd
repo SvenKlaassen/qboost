@@ -47,7 +47,7 @@ where
 $$\rho_\tau(x) = (\tau - I_{\{x\le 0\}})x$$
 is the check function ([Quantile Regression](https://en.wikipedia.org/wiki/Quantile_regression)).
 
-```{r fig loss, echo=FALSE}
+```{r fig_loss, echo=FALSE}
 library(qboost)
 library(ggplot2)
 x <- seq(-1,1,0.01)
@@ -61,7 +61,7 @@ ggplot(data = df, aes(x = x, y = Loss, color = Quantile)) +
   geom_line()
 ```
 Since the loss function is nondifferentiable at zero, the theoretical results rely on a smoothed version of the loss, based on a kernel density estimator. In the plot you can see different examples using different kernels (all with bandwidth $h = 0.1$).
-```{r fig smoothed loss, echo=FALSE}
+```{r fig_smoothed_loss, echo=FALSE}
 h <- 0.1
 loss_gaussian <- lapply(tau_vec, function(tau){
   l = (2/pi)^(1/2)*exp(-(x/h)^2/2)+(x/h)*(1-2*stats::pnorm(-(x/h)))
