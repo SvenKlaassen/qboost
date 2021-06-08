@@ -6,6 +6,9 @@ home:
   - text: Download
     href: https://github.com/SvenKlaassen/qboost/
 
+template:
+  params:
+    bootswatch: cerulean
 
 toc:
   depth: 3
