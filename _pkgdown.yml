@@ -6,8 +6,6 @@ home:
   - text: Download
     href: https://github.com/SvenKlaassen/qboost/
 
-development:
-  mode: devel
 
 toc:
   depth: 3
