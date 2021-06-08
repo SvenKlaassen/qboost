@@ -29,3 +29,5 @@ Suggests:
     markdown
 Config/testthat/edition: 3
 VignetteBuilder: knitr
+URL: https://github.com/SvenKlaassen/qboost
+BugReports: https://github.com/SvenKlaassen/qboost/issues
