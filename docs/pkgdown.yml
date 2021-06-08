@@ -1,9 +1,0 @@
-pandoc: '2.11'
-pkgdown: 1.6.1
-pkgdown_sha: ~
-articles:
-  getstarted: getstarted.html
-  install: install.html
-  intro_qboost: intro_qboost.html
-last_built: 2021-06-08T16:24Z
-
