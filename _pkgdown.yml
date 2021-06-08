@@ -5,6 +5,9 @@ home:
   links:
   - text: Download
     href: https://github.com/SvenKlaassen/qboost/
+template:
+  params:
+    bootswatch: paper
 
 development:
   mode: devel
