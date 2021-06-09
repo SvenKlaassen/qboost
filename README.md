@@ -8,6 +8,7 @@
 [![R-CMD-check](https://github.com/SvenKlaassen/qboost/workflows/R-CMD-check/badge.svg)](https://github.com/SvenKlaassen/qboost/actions)
 [![Codecov test
 coverage](https://codecov.io/gh/SvenKlaassen/qboost/branch/master/graph/badge.svg)](https://codecov.io/gh/SvenKlaassen/qboost?branch=master)
+[![CodeFactor](https://www.codefactor.io/repository/github/SvenKlaassen/qboost/badge)](https://www.codefactor.io/repository/github/SvenKlaassen/qboost)
 <!-- badges: end -->
 
 The R package **qboost** provides an implementation of boosting with the
