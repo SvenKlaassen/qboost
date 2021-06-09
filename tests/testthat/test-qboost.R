@@ -32,7 +32,7 @@ patrick::with_parameters_test_that("Unit tests for WCGA",
     testthat::expect_equal(predictions_last,predictions[,steps,drop = FALSE])
     testthat::expect_equal(dim(coef(model)),c(p + 1,1))
     testthat::expect_equal(dim(coef(model,step = c(1,10))),c(p + 1,2))
-    testthat::expect_equal(coef(model,step = c(0)),model$coeff_path[,1,drop = FALSE])
+    testthat::expect_equal(coef(model,step = 0),model$coeff_path[,1,drop = FALSE])
     testthat::expect_identical(class(autoplot(model, Y, X)), c("gg","ggplot"))
   }
 )

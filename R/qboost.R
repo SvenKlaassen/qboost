@@ -168,7 +168,7 @@ autoplot.qboost <- function(object, new_Y, newdata, steps = NULL, ...){
 
   if (!is.null(object$cv_m_stop)){
     df_cv_loss <- data.frame("cv_loss" = object$loss,
-                             "Step" = 1:length(object$loss),
+                             "Step" = seq_len(length(object$loss)),
                              "Type" = "CV-Loss")
     plot <- plot +
       ggplot2::geom_vline(ggplot2::aes(xintercept = object$cv_m_stop),
