@@ -58,7 +58,8 @@ df <- data.frame("Loss" = unlist(loss),
                  "x" = rep(x,3))
 
 ggplot(data = df, aes(x = x, y = Loss, color = Quantile)) + 
-  geom_line()
+  geom_line() + 
+  geom_hline(yintercept = 0)
 ```
 Since the loss function is nondifferentiable at zero, the theoretical results rely on a smoothed version of the loss, based on a kernel density estimator.
 Given a symmetric kernel $k:\mathbb{R}\to [0,\infty)$ and a bandwidth $h$, the smoothed loss is defined as the convolution
@@ -80,15 +81,42 @@ loss_uniform <- lapply(tau_vec, function(tau){
 )
 
 
-df <- data.frame("Loss" = c(unlist(loss_gaussian),unlist(loss_uniform)),
-                 "Quantile" = rep(rep(c("0.25","0.5","0.75"),each = length(x)),2),
+df <- data.frame("Loss" = c(unlist(loss_gaussian),
+                            unlist(loss_uniform)),
+                 "Quantile" = rep(rep(c("0.25","0.5","0.75"),
+                                      each = length(x)),2),
                  "x" = rep(x,6),
-                 "Kernel" = rep(c("Gaussian", "Uniform"), each = 3*length(x)))
+                 "Kernel" = rep(c("Gaussian", "Uniform"),
+                                each = 3*length(x)))
 
 ggplot(data = df, aes(x = x, y = Loss, color = Quantile)) + 
   geom_line() + 
-  facet_wrap(. ~ Kernel)
+  facet_wrap(. ~ Kernel) + 
+  geom_hline(yintercept = 0)
 ```
+
+The difference to the desired loss function $\rho_\tau$ is the largest at the origin.
+
+```{r fig_loss_diff, echo=FALSE}
+
+loss_diff_gaussian <- lapply(1:length(tau_vec), function(index) {
+    loss_gaussian[[index]] - loss[[index]]
+})
+loss_diff_uniform <- lapply(1:length(tau_vec), function(index) {
+    loss_uniform[[index]] - loss[[index]]
+})
+
+df$Loss_diff <- c(unlist(loss_diff_gaussian),unlist(loss_diff_uniform))
+
+ggplot(data = df, aes(x = x, y = Loss_diff, color = Quantile)) + 
+  geom_line() + 
+  facet_wrap(. ~ Kernel) + 
+  geom_hline(yintercept = 0) +
+  ylab("Loss Difference")
+
+```
+In the figure one can see that the difference behaves uniformly over different quantiles.
+
 The quantile boosting algorithm applies greedy algorithms to minimize the corresponding loss functions. 
 
 ## Quantile Boosting: Example
