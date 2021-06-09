@@ -172,17 +172,18 @@ autoplot(model_WCGA, new_Y = Y_test, newdata = X_test)
 
 Additionally, we can employ the Weak Greedy Algorithm (here with $400$ steps).
 ```{r example2}
-model_WRGA <- qboost(X,Y, tau = tau, m_stop = 400, h = 0.2, kernel = "Gaussian", stepsize = 0.1)
+n_steps_WGA <- 400
+model_WGA <- qboost(X,Y, tau = tau, m_stop = n_steps_WGA, h = 0.2, kernel = "Gaussian", stepsize = 0.1)
 ```
 
 Again, the loss is minimized
 ```{r fig3}
-autoplot(model_WRGA, new_Y = Y, newdata = X)
+autoplot(model_WGA, new_Y = Y, newdata = X)
 ```
 
 but we have to find the right stopping criterion to minimize the out of sample loss.
 ```{r fig4}
-autoplot(model_WRGA, new_Y = Y_test, newdata = X_test)
+autoplot(model_WGA, new_Y = Y_test, newdata = X_test)
 ```
 
 ### Crossvalidation
@@ -197,40 +198,40 @@ autoplot(cv_model_WCGA, new_Y = Y_test, newdata = X_test)
 
 Next, repeat the same for the non-orthogonal algorithm.
 ```{r fig6}
-cv_model_WRGA <- cv_qboost(X,Y, tau = tau, m_stop = 400,
+cv_model_WGA <- cv_qboost(X,Y, tau = tau, m_stop = n_steps_WGA,
                            h = 0.2, kernel = "Gaussian", stepsize = 0.1)
-autoplot(cv_model_WRGA, new_Y = Y_test, newdata = X_test)
+autoplot(cv_model_WGA, new_Y = Y_test, newdata = X_test)
 ```
 
-To compare the performance to the oracle model (here in green), we apply the conquer algorithm to the first $s$ components of $X$ and report the norm of the coefficient vectors.
+To compare the performance to the oracle model (here in green), we apply the conquer algorithm to the first $s$ components of $X$ and report the loss on the test set.
 
 ```{r exampleplot, warning=FALSE}
 library(conquer)
-fit.conquer <- conquer(X[,1:s], Y, tau = tau, h = 0.2, kernel = "Gaussian")
-norm_conquer <- sqrt(sum((fit.conquer$coeff-beta[1:(s+1)])^2))
+fit_conquer <- conquer(X[,1:s], Y, tau = tau, h = 0.2, kernel = "Gaussian")
+resid_conquer <- Y_test - cbind(1,X_test[,1:s])%*%fit_conquer$coeff
+loss_conquer <- smooth_check_loss(resid_conquer,tau = tau, kernel = NULL)
+```
 
-library(ggplot2)
-library(reshape2)
-df <- melt(data.frame("norm_WCGA" = c(apply(cv_model_WCGA$coeff_path,2,
-                                       function(x) sqrt(sum((x-beta)^2))),rep(NA,400-n_steps)),
-                 "norm_WRGA" = apply(cv_model_WRGA$coeff_path,2,
-                                       function(x) sqrt(sum((x-beta)^2))),
-                 "step" = 0:400),
-            id = c("step"))
-        
+```{r, echo = F, warning=FALSE}
+resid_WCGA <- Y_test - Matrix::t(cv_model_WCGA$coeff_path[1,] + Matrix::t(X_test %*% cv_model_WCGA$coeff_path[-1,]))
+resid_WGA <- Y_test - Matrix::t(cv_model_WGA$coeff_path[1,] + Matrix::t(X_test %*% cv_model_WGA$coeff_path[-1,]))
 
-ggplot(df) +
-  geom_line(aes(x = step,y = value, color = variable)) + 
-  scale_colour_manual(values=c("red","blue")) +
-  geom_hline(yintercept = norm_conquer, color = "Forestgreen") +
-  geom_vline(xintercept = cv_model_WCGA$cv_m_stop, linetype = "dashed", color = "red") +
-  geom_vline(xintercept = cv_model_WRGA$cv_m_stop, linetype = "dashed", color = "blue") +
-  ylim(c(0,2.2)) +
-  labs(title = "Norm of the estimators with increasing stepsize",
-       x = "Steps",
-       y = "Norm",
-       colour = "Algorithm") +
-  theme(legend.position = 'bottom')
+loss_WCGA <- apply(resid_WCGA, 2, function(x) smooth_check_loss(x,tau = tau, kernel = NULL))
+loss_WGA <- apply(resid_WGA, 2, function(x) smooth_check_loss(x,tau = tau, kernel = NULL))
+
+df_plot <- data.frame("Loss" = c(rep(loss_conquer,n_steps_WGA+1),loss_WCGA,rep(NA,n_steps_WGA-n_steps),loss_WGA),
+                      "Step" = rep(0:n_steps_WGA,3),
+                      "Type" = rep(c("Oracle","WCGA", "WGA"), each = n_steps_WGA + 1))
+
+ggplot(data = df_plot, aes(x = Step, y = Loss, color = Type)) +
+  geom_line() +
+  theme(legend.position = "bottom") +
+  scale_colour_manual(values = c("Forestgreen","red","blue")) +
+  geom_vline(aes(xintercept = cv_model_WCGA$cv_m_stop),color = "red",
+               linetype = "dashed") + 
+  geom_vline(aes(xintercept = cv_model_WGA$cv_m_stop),color = "blue",
+               linetype = "dashed")
+
 ```
 
 
