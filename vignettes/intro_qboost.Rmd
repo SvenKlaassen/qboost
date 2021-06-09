@@ -60,7 +60,12 @@ df <- data.frame("Loss" = unlist(loss),
 ggplot(data = df, aes(x = x, y = Loss, color = Quantile)) + 
   geom_line()
 ```
-Since the loss function is nondifferentiable at zero, the theoretical results rely on a smoothed version of the loss, based on a kernel density estimator. In the plot you can see different examples using different kernels (all with bandwidth $h = 0.1$).
+Since the loss function is nondifferentiable at zero, the theoretical results rely on a smoothed version of the loss, based on a kernel density estimator.
+Given a symmetric kernel $k:\mathbb{R}\to [0,\infty)$ and a bandwidth $h$, the smoothed loss is defined as the convolution
+$$\rho_{\tau,h}(x):=(\rho_\tau*k_h)(x)=\int_{-\infty}^\infty\rho_\tau(y)k_h(y-x)dy$$
+with $k_h(x)=(1/h)k(x/h)$.
+
+In the plot you can see different examples using different kernels (all with bandwidth $h = 0.1$).
 ```{r fig_smoothed_loss, echo=FALSE}
 h <- 0.1
 loss_gaussian <- lapply(tau_vec, function(tau){
