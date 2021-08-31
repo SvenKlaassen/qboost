@@ -45,21 +45,21 @@
 </li>
 <li>
   <a href="../articles/getstarted.html">
-    <span class="fas fa-solid fa-rocket"></span>
+    <span class="fa fa-solid fa-rocket"></span>
      
     Get started
   </a>
 </li>
 <li>
   <a href="../reference/index.html">
-    <span class="fas fa-file-alt"></span>
+    <span class="fa fa-file-alt"></span>
      
     Reference
   </a>
 </li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-    <span class="fas fa-solid fa-book"></span>
+    <span class="fa fa-solid fa-book"></span>
      
     Articles
      
@@ -155,17 +155,17 @@
 <span class="va">model_WCGA</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/qboost.html">qboost</a></span><span class="op">(</span><span class="va">X</span>,<span class="va">Y</span>, tau <span class="op">=</span> <span class="va">tau</span>, m_stop <span class="op">=</span> <span class="va">n_steps</span>, h <span class="op">=</span> <span class="fl">0.2</span>, kernel <span class="op">=</span> <span class="st">"Gaussian"</span>, stepsize <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span>
 <span class="co"># selected covariates</span>
 <span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">model_WCGA</span><span class="op">$</span><span class="va">selection_path</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">10</span><span class="op">]</span><span class="op">)</span>
-<span class="co">#&gt;  [1]   3   1   2   4 410 343 451 261 433 422</span>
+<span class="co">#&gt;  [1]   3   1   2   4 410 343 433 422 132  12</span>
 <span class="co"># predict values</span>
 <span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/predict.html">predict</a></span><span class="op">(</span><span class="va">model_WCGA</span>, newdata <span class="op">=</span> <span class="va">X_test</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>
 <span class="co">#&gt; 6 x 1 Matrix of class "dgeMatrix"</span>
 <span class="co">#&gt;        Step_100</span>
-<span class="co">#&gt; [1,] -1.7598498</span>
-<span class="co">#&gt; [2,]  4.5276035</span>
-<span class="co">#&gt; [3,]  0.8327509</span>
-<span class="co">#&gt; [4,]  2.1644455</span>
-<span class="co">#&gt; [5,]  3.2002640</span>
-<span class="co">#&gt; [6,]  3.3768875</span></code></pre></div>
+<span class="co">#&gt; [1,]  1.2519807</span>
+<span class="co">#&gt; [2,]  7.1507897</span>
+<span class="co">#&gt; [3,] -1.9682365</span>
+<span class="co">#&gt; [4,]  0.3923533</span>
+<span class="co">#&gt; [5,]  3.0006988</span>
+<span class="co">#&gt; [6,]  3.9602882</span></code></pre></div>
 <p>At first let us take a look at the Loss</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org">ggplot2</a></span><span class="op">)</span>

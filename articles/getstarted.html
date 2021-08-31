@@ -45,21 +45,21 @@
 </li>
 <li>
   <a href="../articles/getstarted.html">
-    <span class="fas fa-solid fa-rocket"></span>
+    <span class="fa fa-solid fa-rocket"></span>
      
     Get started
   </a>
 </li>
 <li>
   <a href="../reference/index.html">
-    <span class="fas fa-file-alt"></span>
+    <span class="fa fa-file-alt"></span>
      
     Reference
   </a>
 </li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-    <span class="fas fa-solid fa-book"></span>
+    <span class="fa fa-solid fa-book"></span>
      
     Articles
      
@@ -139,13 +139,13 @@
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/predict.html">predict</a></span><span class="op">(</span><span class="va">model</span>, newdata <span class="op">=</span> <span class="va">X</span><span class="op">)</span><span class="op">)</span>
 <span class="co">#&gt; 6 x 1 Matrix of class "dgeMatrix"</span>
-<span class="co">#&gt;        Step_159</span>
-<span class="co">#&gt; [1,]  1.0588150</span>
-<span class="co">#&gt; [2,]  2.6956973</span>
-<span class="co">#&gt; [3,] -0.1099137</span>
-<span class="co">#&gt; [4,]  0.4088414</span>
-<span class="co">#&gt; [5,]  1.0995043</span>
-<span class="co">#&gt; [6,]  2.3582303</span></code></pre></div>
+<span class="co">#&gt;        Step_320</span>
+<span class="co">#&gt; [1,]  1.0553096</span>
+<span class="co">#&gt; [2,]  2.6283815</span>
+<span class="co">#&gt; [3,] -0.1195155</span>
+<span class="co">#&gt; [4,]  0.4163286</span>
+<span class="co">#&gt; [5,]  1.1185732</span>
+<span class="co">#&gt; [6,]  2.4744881</span></code></pre></div>
 <p>For the crossvalidated version the prediction is based on the Step with the smallest crossvalidated loss. This can be adjusted manually</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/predict.html">predict</a></span><span class="op">(</span><span class="va">model</span>, newdata <span class="op">=</span> <span class="va">X</span>, step <span class="op">=</span> <span class="fl">0</span><span class="op">)</span><span class="op">)</span>
