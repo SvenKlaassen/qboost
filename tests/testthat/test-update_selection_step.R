@@ -20,7 +20,7 @@ test_that("selection step works without smoothing", {
   residuals <- c(4,-4)
   res <- update_selection_step(X,residuals,tau = 0.5,kernel = NULL)
   expect_equal(res$sel_cov,1)
-  expect_equal(res$cor,1)
+  expect_equal(res$coef,1)
 })
 
 test_that("selection step works with degenerate gradient", {
@@ -28,5 +28,5 @@ test_that("selection step works with degenerate gradient", {
   residuals <- c(4,4)
   res <- update_selection_step(X,residuals,tau = 0.5,kernel = NULL)
   expect_identical(res$sel_cov,NA)
-  expect_equal(res$cor,-0.5)
+  expect_equal(res$coef,-0.5)
 })
