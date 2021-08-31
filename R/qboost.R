@@ -68,10 +68,10 @@ qboost <- function(X,
     } else { #WRGA
       coeff_path[,m+1] <- coeff_path[,m]
       if (is.na(greedy_step$sel_cov)){
-        coeff_path[1,m+1] <- coeff_path[1,m+1] - stepsize*greedy_step$cor
+        coeff_path[1,m+1] <- coeff_path[1,m+1] - stepsize*greedy_step$coef
       } else {
-        coeff_path[selection_path[m]+1,m+1] <- coeff_path[selection_path[m]+1,m] - stepsize*greedy_step$cor
-        coeff_path[1,m+1] <- coeff_path[1,m+1] + stepsize*greedy_step$cor*cm[selection_path[m]]
+        coeff_path[selection_path[m]+1,m+1] <- coeff_path[selection_path[m]+1,m] - stepsize*greedy_step$coef
+        coeff_path[1,m+1] <- coeff_path[1,m+1] + stepsize*greedy_step$coef*cm[selection_path[m]]
       }
       residuals <- Y - (coeff_path[1,m+1] + X %*% coeff_path[-1,m+1,drop = F])
     }
