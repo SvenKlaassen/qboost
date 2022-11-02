@@ -23,7 +23,7 @@ knitr::opts_chunk$set(
 
 High-dimensional quantile regression using boosting. This repository is the official implementation of ...
 
-**TODO: Add Article from arXiv when available**
+**TODO: Add Article from arXiv when available **
 
 Quantile Regression is a popular tool to model the conditional quantiles of a response variable. In a high-dimensional setting, the theoretical results are largely limited to a penalized quantile regression model ([Belloni and Chernozhukov, 2011](https://projecteuclid.org/journals/annals-of-statistics/volume-39/issue-1/%e2%84%931-penalized-quantile-regression-in-high-dimensional-sparse-models/10.1214/10-AOS827.full)).<br />
 Instead, we employ a greedy procedure to gradually improve the regression function. To overcome the non-differentiability of the check loss funciton, we employ the convolution-type smoothed quantile regression ([Fernandes, Guerre and Horta, 2019](https://www.tandfonline.com/doi/abs/10.1080/07350015.2019.1660177?journalCode=ubes20) and [He, Pan, Tan, Zhou](https://arxiv.org/abs/2012.05187)). 
