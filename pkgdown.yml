@@ -1,9 +1,9 @@
 pandoc: 2.7.3
-pkgdown: 1.6.1
+pkgdown: 2.0.6
 pkgdown_sha: ~
 articles:
   getstarted: getstarted.html
   install: install.html
   intro_qboost: intro_qboost.html
-last_built: 2021-08-31T09:16Z
+last_built: 2022-11-02T08:23Z
 
